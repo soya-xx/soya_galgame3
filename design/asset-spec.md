@@ -124,6 +124,9 @@ codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
 | C24 | cg/cg_end_refuse.png | P1 | 含猫：dusk rooftops, a small cream cat with pink bow watching from a roof ridge a distant ordinary man walking home below, melancholic warm light |
 | C25 | cg/cg_end_arena.png | P1 | rain on an empty arena, a shattered plain sword lying on wet stone, blood thinning in rainwater, no people, cold grey |
 | C26 | cg/cg_betrayal.png | P0 | memory flashback: on a colossal white-jade ascension platform above golden clouds, a white-robed long-haired swordsman seen from front with a sword blade piercing out of his chest from behind, golden light shattering like glass around him, a blurred silver-haired figure behind, tragic, dramatic |
+| C27 | cg/cg_spring.png | P0(v2) | 含Soya(锚图)：hot spring in bamboo forest at night, thick white steam, Soya in the water up to her shoulders half turned away looking back surprised and shy, wet cream-blonde hair, cat ears with water droplets, golden bell resting on a rock at the edge, steam tastefully covering everything below shoulders, no nudity visible, comedic flustered mood |
+| C28 | cg/cg_first_kiss.png | P0(v2) | 含Soya(锚图)：moonlit small wooden room, Soya in a faintly glowing translucent form leaning down to softly kiss the lying protagonist (black ponytail), foreheads close, golden light particles rising from her hair like embers, her edges slightly fading, bittersweet tender, dark blue night palette |
+| C29 | cg/cg_dawn_kiss.png | P0(v2) | 含Soya(锚图)：warm sunrise flooding a windowsill, Soya in her xianxia hanfu tiptoeing up to kiss the protagonist in white robes, his hands catching her shoulders, golden bell shining, pink petals in morning light, joyful tears, celebratory and warm |
 
 ## 数量自检
 

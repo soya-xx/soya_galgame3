@@ -256,8 +256,8 @@
 
   /* 最后一剑：羁绊与真相的结算 */
   C.router([
-    [{ min: { truth: 6, ban: 10 }, flags: ['jiushen', 'liumeng'] }, 'final_ally'],
-    [{ min: { truth: 6, ban: 10 } }, 'final_true']
+    [{ min: { truth: 6, ban: 14 }, flags: ['jiushen', 'liumeng'] }, 'final_ally'],
+    [{ min: { truth: 6, ban: 14 } }, 'final_true']
   ], 'final_sleep');
 
   /* 败局：剑冢长眠 */

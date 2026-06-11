@@ -107,5 +107,6 @@ window.CG_TITLES = {
   cg_gather: '集结', cg_confront: '飞升台对峙', cg_wanjian: '万剑归宗',
   cg_end_true: '天下剑鸣', cg_end_ash: '白首剑帝', cg_end_sleep: '剑冢长眠',
   cg_end_demon: '魔染', cg_end_leave: '平凡之路', cg_end_refuse: '猫的报恩',
-  cg_end_arena: '断剑台'
+  cg_end_arena: '断剑台',
+  cg_spring: '灵泉', cg_first_kiss: '猫的规矩', cg_dawn_kiss: '晨光之约'
 };

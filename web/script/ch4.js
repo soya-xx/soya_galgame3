@@ -243,7 +243,7 @@
   C.label('liu_key');
 
   /* 魔染结局入口 */
-  C.router([[{ flags: ['forhate'], min: { jian: 8 }, max: { ban: 5 } }, 'demon_path']], 'liu_arrive');
+  C.router([[{ flags: ['forhate'], min: { jian: 8 }, max: { ban: 9 } }, 'demon_path']], 'liu_arrive');
 
   C.label('demon_path');
   C.n('后半夜，你一个人下了山。');
@@ -286,7 +286,7 @@
   C.n('身体里有些东西，比记忆死得慢。');
   C.choice([
     ['直取飞升台', 'counter', { flag: 'hubao' }],
-    ['带她走，不打了', 'leave_check', {}, { min: { ban: 8 } }],
+    ['带她走，不打了', 'leave_check', {}, { min: { ban: 12 } }],
     ['把她托付给周伯', 'entrust', { jian: 1, flag: 'solo' }]
   ]);
 
