@@ -1,0 +1,11 @@
+{
+  "name": "soya_galgame3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "《剑神三千年》——男性向龙傲天修仙视觉小说，女主向向Soya",
+  "type": "module",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "test": "node test/structure.mjs && node test/style.mjs && node test/hooks.mjs"
+  }
+}

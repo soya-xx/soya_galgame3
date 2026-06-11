@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>剑神三千年</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 游戏舞台 -->
+  <div id="stage" class="hidden">
+    <div id="bg-a" class="bglayer"></div>
+    <div id="bg-b" class="bglayer"></div>
+    <div id="sprites"></div>
+    <div id="cg-layer" class="hidden"><img id="cg-img" alt=""><div id="cg-fallback" class="hidden"></div></div>
+    <div id="chapter-card" class="hidden"><div id="chapter-card-text"></div></div>
+
+    <!-- 对话框 -->
+    <div id="dialog">
+      <div id="speaker" class="hidden"></div>
+      <div id="text"></div>
+      <div id="advance-hint">▼</div>
+      <div id="vn-bar">
+        <button data-act="history">历史</button>
+        <button data-act="auto" id="btn-auto">自动</button>
+        <button data-act="skip" id="btn-skip">快进</button>
+        <button data-act="flow">分支</button>
+        <button data-act="qsave">快存</button>
+        <button data-act="qload">快读</button>
+        <button data-act="save">存档</button>
+        <button data-act="load">读档</button>
+        <button data-act="settings">设置</button>
+        <button data-act="title">标题</button>
+      </div>
+    </div>
+
+    <!-- 居中选项 -->
+    <div id="choices" class="hidden"><div id="choice-box"></div></div>
+  </div>
+
+  <!-- 标题画面 -->
+  <div id="title-screen">
+    <div id="title-bg"></div>
+    <div id="title-inner">
+      <h1 id="game-title">剑神三千年</h1>
+      <p id="game-sub">全宗门都当你是废柴，只有一只猫，叫你三千年前的名字。</p>
+      <div id="title-menu">
+        <button data-act="new">新的轮回</button>
+        <button data-act="continue" id="btn-continue">继续修行</button>
+        <button data-act="load">读取存档</button>
+        <button data-act="flow">分支·结局</button>
+        <button data-act="gallery">CG鉴赏</button>
+        <button data-act="settings">设置</button>
+      </div>
+      <p id="title-ver">v1.0 · 单女主 · 向向Soya</p>
+    </div>
+  </div>
+
+  <!-- 取名 -->
+  <div id="name-modal" class="overlay hidden">
+    <div class="panel small">
+      <h2>你的名字</h2>
+      <p class="muted">三千年前的人间第一剑，如今的外门弟子。</p>
+      <input id="name-input" maxlength="8" value="林惊澜" autocomplete="off">
+      <p class="muted tiny">1-8个字，向向会一直记得这个名字。</p>
+      <div class="row">
+        <button id="name-ok" class="primary">就叫这个</button>
+        <button id="name-cancel">返回</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 历史 -->
+  <div id="history" class="overlay hidden">
+    <div class="panel tall"><h2>对话历史</h2><div id="history-list"></div><button class="close" data-close="history">关闭</button></div>
+  </div>
+
+  <!-- 存读档 -->
+  <div id="saves" class="overlay hidden">
+    <div class="panel tall"><h2 id="saves-title">存档</h2><div id="save-slots"></div><button class="close" data-close="saves">关闭</button></div>
+  </div>
+
+  <!-- 设置 -->
+  <div id="settings" class="overlay hidden">
+    <div class="panel">
+      <h2>设置</h2>
+      <label>文字速度 <input type="range" id="set-speed" min="0" max="100" value="60"></label>
+      <label>自动播放间隔 <input type="range" id="set-auto" min="0" max="100" value="50"></label>
+      <label>音乐音量 <input type="range" id="set-bgm" min="0" max="100" value="60"></label>
+      <label class="row-label"><input type="checkbox" id="set-skipall"> 快进时跳过未读文本</label>
+      <button class="close" data-close="settings">关闭</button>
+    </div>
+  </div>
+
+  <!-- 分支·结局·情报 -->
+  <div id="flow" class="overlay hidden">
+    <div class="panel tall">
+      <div class="tabs">
+        <button class="tab active" data-tab="routes">本回选择</button>
+        <button class="tab" data-tab="ends">结局图鉴</button>
+        <button class="tab" data-tab="intel">情报</button>
+      </div>
+      <div id="flow-routes" class="tabpage"></div>
+      <div id="flow-ends" class="tabpage hidden"></div>
+      <div id="flow-intel" class="tabpage hidden"></div>
+      <button class="close" data-close="flow">关闭</button>
+    </div>
+  </div>
+
+  <!-- CG鉴赏 -->
+  <div id="gallery" class="overlay hidden">
+    <div class="panel tall"><h2>CG鉴赏</h2><div id="gallery-grid"></div><button class="close" data-close="gallery">关闭</button></div>
+  </div>
+  <div id="gallery-view" class="overlay hidden"><img id="gallery-img" alt=""></div>
+
+  <!-- 结局画面 -->
+  <div id="ending-screen" class="overlay hidden">
+    <div id="ending-inner">
+      <p id="ending-kind"></p>
+      <h2 id="ending-name"></h2>
+      <p id="ending-text"></p>
+      <p id="ending-intel" class="intel"></p>
+      <div class="row">
+        <button id="ending-flow">看看错过了什么</button>
+        <button id="ending-title" class="primary">回到标题</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+</div>
+
+<script src="script/dsl.js"></script>
+<script src="script/characters.js"></script>
+<script src="script/ch0.js"></script>
+<script src="script/ch1.js"></script>
+<script src="script/ch2.js"></script>
+<script src="script/ch3.js"></script>
+<script src="script/ch4.js"></script>
+<script src="script/ch5.js"></script>
+<script src="script/endings.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>
