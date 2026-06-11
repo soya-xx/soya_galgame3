@@ -108,5 +108,7 @@ window.CG_TITLES = {
   cg_end_true: '天下剑鸣', cg_end_ash: '白首剑帝', cg_end_sleep: '剑冢长眠',
   cg_end_demon: '魔染', cg_end_leave: '平凡之路', cg_end_refuse: '猫的报恩',
   cg_end_arena: '断剑台',
-  cg_spring: '灵泉', cg_first_kiss: '猫的规矩', cg_dawn_kiss: '晨光之约'
+  cg_spring: '灵泉', cg_first_kiss: '猫的规矩', cg_dawn_kiss: '晨光之约',
+  cg_duel_clash: '试剑', cg_tomb_bow: '老臣叩首', cg_arm_cut: '一寸',
+  cg_stairs: '归位', cg_sword_sea: '剑海蔽空'
 };

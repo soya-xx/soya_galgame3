@@ -196,8 +196,10 @@
     clearTimeout(autoTimer);
     const node = STORY.nodes[state.node];
     if (!autoOn || !node || node.ch) return;
-    const base = 2400 - G.settings.auto * 18;
-    autoTimer = setTimeout(() => { if (autoOn && !typing) advance(); }, Math.max(420, base + fullText.length * 26));
+    /* 每行展现完停留2-5秒：按行长缩放，滑杆只在区间内微调 */
+    const factor = 1.25 - (G.settings.auto / 200);
+    const dwell = Math.min(5000, Math.max(2000, (1400 + fullText.length * 60) * factor));
+    autoTimer = setTimeout(() => { if (autoOn && !typing) advance(); }, dwell);
   }
   function setSkip(v) {
     skipOn = v; $('btn-skip').classList.toggle('on', v);
@@ -208,7 +210,8 @@
         const node = STORY.nodes[state.node];
         if (!node || node.ch) { setSkip(false); return; }
         const nxt = node.next;
-        if (!G.settings.skipall && nxt && !G.read[nxt]) { setSkip(false); return; }
+        /* 快进只跳已读文本，遇到未读自动停下 */
+        if (nxt && !G.read[nxt]) { setSkip(false); return; }
         completeType(); advance();
       }, 70);
     }
@@ -543,11 +546,9 @@
     $('set-speed').value = G.settings.speed;
     $('set-auto').value = G.settings.auto;
     $('set-bgm').value = G.settings.bgm;
-    $('set-skipall').checked = !!G.settings.skipall;
     $('set-speed').oninput = e => { G.settings.speed = +e.target.value; saveG(); };
     $('set-auto').oninput = e => { G.settings.auto = +e.target.value; saveG(); };
     $('set-bgm').oninput = e => { G.settings.bgm = +e.target.value; if (audio) audio.volume = G.settings.bgm / 100; saveG(); };
-    $('set-skipall').onchange = e => { G.settings.skipall = e.target.checked; saveG(); };
 
     document.addEventListener('keydown', (ev) => {
       if ($('name-modal') && !$('name-modal').classList.contains('hidden')) return;
