@@ -110,5 +110,9 @@ window.CG_TITLES = {
   cg_end_arena: '断剑台',
   cg_spring: '灵泉', cg_first_kiss: '猫的规矩', cg_dawn_kiss: '晨光之约',
   cg_duel_clash: '试剑', cg_tomb_bow: '老臣叩首', cg_arm_cut: '一寸',
-  cg_stairs: '归位', cg_sword_sea: '剑海蔽空'
+  cg_stairs: '归位', cg_sword_sea: '剑海蔽空',
+  cg_reforge_close: '渡气', cg_bed_morning: '赖床', cg_ear_closeup: '耳尖',
+  cg_lake_wet: '月下', cg_sword_sleep: '抱剑而眠', cg_borrow_robe: '借衣',
+  cg_tail_groom: '梳尾', cg_banquet_gown: '盛装', cg_lap_feed: '投喂',
+  cg_fever_care: '侍疾', cg_cling_cry: '别走', cg_morning_after: '翌日'
 };
