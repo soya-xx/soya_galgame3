@@ -135,5 +135,6 @@ window.CG_TITLES = {
   cg_leave_bath: '浴桶', cg_leave_drunk: '桂花酿', cg_leave_quilt: '同衾', cg_leave_dawn: '晨炊',
   cg_refuse_dream: '梦·窗边', cg_refuse_warm: '梦·依偎',
   cg_arena_moon: '月华复形', cg_arena_tend: '敷药', cg_arena_warm: '偎暖', cg_arena_dawn: '黎明之约',
-  cg_steady_hand: '稳住的手'
+  cg_steady_hand: '稳住的手',
+  cg_burn_out: '燃丹·焚身', cg_burn_ash: '燃丹·余烬'
 };
