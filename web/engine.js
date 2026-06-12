@@ -197,8 +197,22 @@
   }
 
   /* ---------- CG（粘滞：声明开启，cgOff/换背景关闭） ---------- */
-  let curCg = null;
+  let curCg = null, cgLocked = false, cgLockTimer = null;
   function hideCg() { curCg = null; $('cg-layer').classList.add('hidden'); }
+  /* CG 刚切换：2秒轻微缩放亮相，期间锁住"前进到下一句"，防止手快划过 */
+  function startCgIntro() {
+    const img = $('cg-img');
+    img.classList.remove('cg-intro'); void img.offsetWidth; img.classList.add('cg-intro');
+    cgLocked = true;
+    $('advance-hint').classList.remove('on');
+    clearTimeout(cgLockTimer);
+    cgLockTimer = setTimeout(() => {
+      cgLocked = false;
+      img.classList.remove('cg-intro');
+      if (!typing) $('advance-hint').classList.add('on');
+      if (autoOn && !typing) scheduleAuto();
+    }, 2000);
+  }
   function renderCg(node, bgChanged) {
     const layer = $('cg-layer'), img = $('cg-img'), fb = $('cg-fallback');
     if (node.cg) {
@@ -208,6 +222,7 @@
         img.classList.remove('hidden'); fb.classList.add('hidden');
         img.onerror = () => { img.classList.add('hidden'); fb.classList.remove('hidden'); fb.textContent = '— ' + (window.CG_TITLES[node.cg] || node.cg) + ' —'; };
         img.src = 'assets/cg/' + node.cg + '.png';
+        startCgIntro();
       }
       layer.classList.remove('hidden');
     } else if (node.cgOff || bgChanged) {
@@ -224,16 +239,16 @@
     const el = $('text'); el.textContent = '';
     $('advance-hint').classList.remove('on');
     const ms = 86 - (G.settings.speed * 0.78);
-    if (ms <= 9) { el.textContent = text; typing = false; $('advance-hint').classList.add('on'); onTextDone(); return; }
+    if (ms <= 9) { el.textContent = text; typing = false; if (!cgLocked) $('advance-hint').classList.add('on'); onTextDone(); return; }
     let i = 0;
     typeTimer = setInterval(() => {
       i += 1; el.textContent = text.slice(0, i);
-      if (i >= text.length) { clearInterval(typeTimer); typing = false; $('advance-hint').classList.add('on'); onTextDone(); }
+      if (i >= text.length) { clearInterval(typeTimer); typing = false; if (!cgLocked) $('advance-hint').classList.add('on'); onTextDone(); }
     }, ms);
   }
   function completeType() {
     clearInterval(typeTimer); typing = false;
-    $('text').textContent = fullText; $('advance-hint').classList.add('on');
+    $('text').textContent = fullText; if (!cgLocked) $('advance-hint').classList.add('on');
     onTextDone();
   }
 
@@ -345,6 +360,7 @@
     const node = STORY.nodes[state.node];
     if (!node) return;
     if (typing) { completeType(); return; }
+    if (cgLocked) return;
     if (node.ch) { showChoices(node); return; }
     if (node.end) { showEnding(node.end); return; }
     if (node.next) show(node.next);
