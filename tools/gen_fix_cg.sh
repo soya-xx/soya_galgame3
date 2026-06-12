@@ -2,11 +2,12 @@
 # 修正11张问题CG + cg_betrayal（方向/构图/角色一致性全部订正）
 # 每张备份原图到 design/cg_backup/，生成后验宽>=1024才保留，最多3次重试
 set -u
-CG_DIR="/Users/b1lli/Documents/soya_galgame3/web/assets/cg"
-BAK_DIR="/Users/b1lli/Documents/soya_galgame3/design/cg_backup"
-LOG="/Users/b1lli/Documents/soya_galgame3/design/gen_fix_cg.log"
-SOYA_REF="/Users/b1lli/Documents/soya_galgame3/web/assets/characters/soya_smile.png"
-CAT_REF="/Users/b1lli/Documents/soya_galgame3/web/assets/characters/cat_normal.png"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CG_DIR="$ROOT/web/assets/cg"
+BAK_DIR="$ROOT/design/cg_backup"
+LOG="$ROOT/design/gen_fix_cg.log"
+SOYA_REF="$ROOT/web/assets/characters/soya_smile.png"
+CAT_REF="$ROOT/web/assets/characters/cat_normal.png"
 
 mkdir -p "$BAK_DIR"
 echo "# gen_fix_cg $(date '+%Y-%m-%d %H:%M')" > "$LOG"

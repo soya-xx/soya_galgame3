@@ -1,8 +1,30 @@
 # 《剑神三千年》资产规格书
 
-生成方式：本机 `codex exec` 调用 gpt-image-2。所有输出 PNG，放入 `/Users/b1lli/Documents/soya_galgame3/web/assets/` 对应子目录。
+生成方式：本机 `codex exec` 调用 gpt-image-2。所有输出 PNG，放入 `web/assets/` 对应子目录。
 
-## 调用配方（每个图像代理照此执行）
+## 标准生图工作流（v2，2026-06-12起生效）
+
+### Step 1 — codex + gpt-image-2（高质量底图）
+
+```bash
+codex exec -m gpt-5.5 --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
+  -i <参考图> -- "用 gpt-image-2 生成一张图片，保存到 <绝对路径>。尺寸1536x1024。提示词：<PROMPT>"
+```
+
+- 优先用 gpt-image-2 出高质量构图/角色一致性底图（suggestive 级尺度，有时被安全过滤需调措辞）
+
+### Step 2 — grsai nano-banana-pro img2img（最大化尺度）
+
+```bash
+python3 tools/enhance_cg.py <input.png> <output.png> <cg_key>
+```
+
+- 以 Step 1 底图为参考，送 grsai nano-banana-pro 做 img2img 增强
+- 安全边界：露出/姿势/表情可最大化；明确性行为被拦截
+- API key：`sk-fadeebb690d74c7f82adf5655db17ea0`（grsai.com）
+- cg_key 列表及 enhance prompt 见 `tools/enhance_cg.py`
+
+### 旧配方（v1，仅txt2img，已废弃）
 
 ```bash
 codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
@@ -13,14 +35,14 @@ codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
 - 立绘（characters/）：尺寸 1024x1536，**背景必须完全透明（alpha通道）**。
 - 背景（backgrounds/）与 CG（cg/）与标题图（ui/）：尺寸 1536x1024，不透明。
 - 每生成一张，必须用 `sips -g hasAlpha -g pixelWidth <file>` 验证文件存在且参数正确，再用读图工具目视检查：手指数量、肢体重复、构图、与提示词动作一致。不合格立即重生成（最多3次，仍不合格记入状态文件并继续下一张）。
-- 状态记录：每完成/失败一张，向 `/Users/b1lli/Documents/soya_galgame3/design/asset-status-<agent>.md` 追加一行：`<文件名> OK/RETRY/FAIL <一句话备注>`。
+- 状态记录：每完成/失败一张，向 `design/asset-status-<agent>.md` 追加一行：`<文件名> OK/RETRY/FAIL <一句话备注>`。
 - 先做 P0，全部 P0 完成后再做 P1。
 
 ## Soya 一致性（所有含向向的图必须附参考图）
 
 参考图（用 -i 附带，最多2张）：
-- `/Users/b1lli/Documents/向向皮套素材assets/微信图片_20260611014516_8_3702.png`（全身正面）
-- `/Users/b1lli/Documents/向向皮套素材assets/微信图片_20260611014547_12_3702.png`（全身斜角+尾巴）
+- `$HOME/Documents/向向皮套素材assets/微信图片_20260611014516_8_3702.png`（全身正面）
+- `$HOME/Documents/向向皮套素材assets/微信图片_20260611014547_12_3702.png`（全身斜角+尾巴）
 
 角色描述（嵌入每条相关提示词）【v2 仙侠风换装版，2026-06-12 起生效；v1 洛丽塔版已废弃，旧图备份于 design/old_outfit/】：
 > Soya (向向): cute petite cat-girl, long wavy cream-blonde hair with two small side buns, fluffy cat ears (cream fur, pink inner), big round blue eyes, small pink ribbon bow on her hair, black choker with a small golden bell, fluffy cream-brown cat tail. OUTFIT (Chinese xianxia hanfu, NOT lolita): white cross-collar top with wide flowing sleeves, high-waisted pastel-pink ruqun skirt with layered white gauze, long floating pink silk ribbons (piaodai) drifting around her arms, light-blue sash and ribbon accents, subtle cat-paw embroidery, delicate embroidered shoes. Cute, petite, gentle, immortal-fairy aesthetic.

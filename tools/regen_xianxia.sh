@@ -1,9 +1,10 @@
 #!/bin/bash
 # 仙侠风v2批量重生成：以 soya_smile(v2) 与 cat_normal(v2) 为锚，覆盖旧图
-CHARS="/Users/b1lli/Documents/soya_galgame3/web/assets/characters"
-CGD="/Users/b1lli/Documents/soya_galgame3/web/assets/cg"
-UID2="/Users/b1lli/Documents/soya_galgame3/web/assets/ui"
-LOG="/Users/b1lli/Documents/soya_galgame3/design/asset-status-v2.md"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CHARS="$ROOT/web/assets/characters"
+CGD="$ROOT/web/assets/cg"
+UID2="$ROOT/web/assets/ui"
+LOG="$ROOT/design/asset-status-v2.md"
 SOYA_REF="$CHARS/soya_smile.png"
 CAT_REF="$CHARS/cat_normal.png"
 NOGIT="只生成并保存图片文件；不要执行任何git操作，不要创建issue，不要提交代码。"

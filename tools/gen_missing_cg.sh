@@ -1,10 +1,11 @@
 #!/bin/bash
 # 串行补齐缺失CG（macOS bash 3.2 兼容版）：跳过已存在文件，逐张验证，全程留痕
-CG_DIR="/Users/b1lli/Documents/soya_galgame3/web/assets/cg"
-LOG="/Users/b1lli/Documents/soya_galgame3/design/asset-status-cgfinal.md"
-REF1="/Users/b1lli/Documents/向向皮套素材assets/微信图片_20260611014516_8_3702.png"
-REF2="/Users/b1lli/Documents/向向皮套素材assets/微信图片_20260611014547_12_3702.png"
-CATREF="/Users/b1lli/Documents/soya_galgame3/web/assets/characters/cat_normal.png"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CG_DIR="$ROOT/web/assets/cg"
+LOG="$ROOT/design/asset-status-cgfinal.md"
+REF1="$HOME/Documents/向向皮套素材assets/微信图片_20260611014516_8_3702.png"
+REF2="$HOME/Documents/向向皮套素材assets/微信图片_20260611014547_12_3702.png"
+CATREF="$ROOT/web/assets/characters/cat_normal.png"
 STYLE="high-quality anime visual novel event CG, cinematic composition, emotional lighting, Chinese xianxia fantasy, detailed, no text, no watermark, correct anatomy, exactly two arms per person, each visible hand five fingers."
 SOYA="Soya: cute petite cat-girl, long wavy cream-blonde hair with two small side buns, fluffy cat ears with pink inner, big round blue eyes, small pink ribbon bow on head with white frilled lolita headband, black choker with a small golden bell, pink off-shoulder blouse with white frilled apron dress, cocoa-brown layered frill skirt with light-blue ribbons, white knee socks, fluffy cream-brown cat tail, exactly match the reference character design."
 

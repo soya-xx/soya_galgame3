@@ -1,8 +1,9 @@
 #!/bin/bash
 # 等v2主批量完成后，接力生成3张恋爱线CG
-CGD="/Users/b1lli/Documents/soya_galgame3/web/assets/cg"
-LOG="/Users/b1lli/Documents/soya_galgame3/design/asset-status-v2.md"
-SOYA_REF="/Users/b1lli/Documents/soya_galgame3/web/assets/characters/soya_smile.png"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CGD="$ROOT/web/assets/cg"
+LOG="$ROOT/design/asset-status-v2.md"
+SOYA_REF="$ROOT/web/assets/characters/soya_smile.png"
 NOGIT="只生成并保存图片文件；不要执行任何git操作，不要创建issue，不要提交代码。"
 CG="high-quality anime visual novel event CG, cinematic composition, emotional lighting, Chinese xianxia fantasy, detailed, no text, no watermark, correct anatomy, exactly two arms per person, each visible hand five fingers."
 SOYA_V2="Soya the cat-girl: EXACTLY the same character and same Chinese xianxia hanfu outfit as the reference image (white cross-collar wide-sleeve top, pastel-pink ruqun skirt, floating pink ribbons, golden bell on black choker, cream-blonde wavy hair with two side buns, cat ears, big blue eyes, fluffy tail)."

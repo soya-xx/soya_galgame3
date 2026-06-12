@@ -11,7 +11,7 @@
 ## 图像
 
 - 立绘、背景、CG 均由本机 codex CLI 调用 gpt-image-2 为本项目生成，存于 `web/assets/`。
-- 女主向向（Soya）形象基于 `/Users/b1lli/Documents/向向皮套素材assets/` 提供的角色设计参考图生成。
+- 女主向向（Soya）形象基于项目本地角色设计参考图生成。
 
 ## 引擎
 
