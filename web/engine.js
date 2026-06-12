@@ -6,8 +6,12 @@
 
   /* ---------- 全局持久数据 ---------- */
   const GKEY = 'jsg3_global';
-  let G = { read: {}, cg: {}, ends: {}, intel: {}, settings: { speed: 60, auto: 50, bgm: 60, skipall: false } };
-  try { const raw = localStorage.getItem(GKEY); if (raw) G = Object.assign(G, JSON.parse(raw)); } catch (e) {}
+  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, bgmOn: false, skipall: true };
+  let G = { read: {}, cg: {}, ends: {}, intel: {}, settings: Object.assign({}, DEFAULT_SETTINGS) };
+  try {
+    const raw = localStorage.getItem(GKEY);
+    if (raw) { const saved = JSON.parse(raw); G = Object.assign(G, saved); G.settings = Object.assign({}, DEFAULT_SETTINGS, saved.settings || {}); }
+  } catch (e) {}
   function saveG() { try { localStorage.setItem(GKEY, JSON.stringify(G)); } catch (e) {} }
 
   /* ---------- 运行状态 ---------- */
@@ -33,7 +37,7 @@
   }
   let pendingTrack = null, fadeTimer = null;
   function playTrack(key) {
-    if (!key || !MUSIC[key]) { stopMusic(); return; }
+    if (!key || !MUSIC[key] || !G.settings.bgmOn) { stopMusic(); return; }
     if (!audioReady) { pendingTrack = key; return; }
     if (curTrack === key) { audio.volume = G.settings.bgm / 100; return; }
     curTrack = key;
@@ -62,6 +66,19 @@
       audio.volume = Math.max(0, audio.volume - 0.1);
       if (audio.volume <= 0) { clearInterval(fadeTimer); audio.pause(); }
     }, 70);
+  }
+  function syncMusicBtn() {
+    const b = $('music-toggle'); if (!b) return;
+    b.classList.toggle('on', G.settings.bgmOn);
+    b.title = G.settings.bgmOn ? '音乐开（点击关闭）' : '音乐关（点击开启）';
+  }
+  function toggleMusic() {
+    G.settings.bgmOn = !G.settings.bgmOn; saveG(); syncMusicBtn();
+    if (G.settings.bgmOn) {
+      ensureAudio();
+      const node = state && STORY.nodes[state.node];
+      playTrack(node ? node.music : null);
+    } else stopMusic();
   }
 
   /* ---------- 背景 ---------- */
@@ -209,14 +226,20 @@
       skipTimer = setInterval(() => {
         const node = STORY.nodes[state.node];
         if (!node || node.ch) { setSkip(false); return; }
-        const nxt = node.next;
-        /* 快进只跳已读文本，遇到未读自动停下 */
-        if (nxt && !G.read[nxt]) { setSkip(false); return; }
+        /* 快进跳过全部文本（含未读）；遇到选项分支才停 */
         completeType(); advance();
       }, 70);
     }
   }
   function onTextDone() { if (autoOn) scheduleAuto(); }
+
+  /* ---------- 隐藏UI（截图） ---------- */
+  let uiHidden = false;
+  function setHideUI(v) {
+    uiHidden = v;
+    $('stage').classList.toggle('ui-hidden', v);
+    if (v) toast('已隐藏界面 · 点击画面恢复');
+  }
 
   /* ---------- 主流程 ---------- */
   let busy = false;
@@ -487,8 +510,9 @@
   /* ---------- 事件绑定 ---------- */
   function bind() {
     $('stage').addEventListener('click', (ev) => {
-      if (ev.target.closest('#vn-bar') || ev.target.closest('#choices') || ev.target.closest('#chapter-card')) return;
+      if (ev.target.closest('#vn-bar') || ev.target.closest('#choices') || ev.target.closest('#chapter-card') || ev.target.closest('#music-toggle')) return;
       ensureAudio();
+      if (uiHidden) { setHideUI(false); return; }
       if (skipOn) { setSkip(false); return; }
       advance();
     });
@@ -510,6 +534,7 @@
       if (act === 'save') openSaves('save');
       if (act === 'load') openSaves('load');
       if (act === 'settings') openOverlay('settings');
+      if (act === 'hideui') setHideUI(true);
       if (act === 'title') { if (confirm('回到标题？未保存的进度会丢失。')) enterTitle(); }
     });
 
@@ -542,6 +567,9 @@
 
     $('ending-title').onclick = enterTitle;
     $('ending-flow').onclick = () => { renderFlow(); openOverlay('flow'); };
+
+    syncMusicBtn();
+    $('music-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleMusic(); };
 
     $('set-speed').value = G.settings.speed;
     $('set-auto').value = G.settings.auto;

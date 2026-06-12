@@ -38,6 +38,25 @@ button { font-family:inherit; cursor:pointer; }
 .portrait .ph span { margin-bottom:18%; font-size:clamp(14px,2vw,22px); color:#d8d2c0; opacity:.85;
   writing-mode:vertical-rl; letter-spacing:.3em; }
 
+/* 右上角音乐开关 */
+#music-toggle { position:absolute; top:14px; right:14px; z-index:9; width:40px; height:40px;
+  border-radius:50%; border:1px solid rgba(240,234,216,.22); background:rgba(10,13,20,.55);
+  font-size:20px; line-height:1; display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(2px); transition:all .18s ease; padding:0; }
+#music-toggle span { position:relative; display:inline-block; color:#9a937f; transition:color .18s ease; }
+/* 关闭态：灰色音符 + 灰色斜杠线 */
+#music-toggle:not(.on) span::after { content:''; position:absolute; left:-3px; top:50%;
+  width:26px; height:2px; background:#9a937f; transform:rotate(-45deg); transform-origin:center; }
+/* 开启态：亮白色音符，无斜杠 */
+#music-toggle.on span { color:#ffffff; }
+#music-toggle:hover { border-color:#ffd98a; background:rgba(20,24,38,.8); }
+#music-toggle.on { border-color:rgba(255,255,255,.65); box-shadow:0 0 8px rgba(255,255,255,.35); }
+
+/* 隐藏全部UI（截图用）：保留背景/立绘/CG，淡出对话框与控件 */
+#stage.ui-hidden #dialog,
+#stage.ui-hidden #music-toggle { opacity:0; pointer-events:none; transition:opacity .25s ease; }
+#stage.ui-hidden #advance-hint { opacity:0; }
+
 /* CG */
 #cg-layer { position:absolute; inset:0; z-index:6; background:#000; display:flex; align-items:center; justify-content:center; }
 #cg-img { width:100%; height:100%; object-fit:cover; animation:cgdrift 16s ease-in-out infinite alternate; }

@@ -114,5 +114,15 @@ window.CG_TITLES = {
   cg_reforge_close: '渡气', cg_bed_morning: '赖床', cg_ear_closeup: '耳尖',
   cg_lake_wet: '月下', cg_sword_sleep: '抱剑而眠', cg_borrow_robe: '借衣',
   cg_tail_groom: '梳尾', cg_banquet_gown: '盛装', cg_lap_feed: '投喂',
-  cg_fever_care: '侍疾', cg_cling_cry: '别走', cg_morning_after: '翌日'
+  cg_fever_care: '侍疾', cg_cling_cry: '别走', cg_morning_after: '翌日',
+  cg_first_form: '初现', cg_morning_dress: '织衣', cg_check_bone: '听骨',
+  cg_true_bath: '灵泉赐浴', cg_true_dress: '红妆', cg_true_veil: '却扇',
+  cg_true_carry: '入怀', cg_true_night: '烛影摇红',
+  cg_ally_feast: '喜宴', cg_ally_morning: '崖上晨光',
+  cg_ash_dream: '雪夜幻',
+  cg_sleep_lap: '梦·膝枕', cg_sleep_warm: '梦·同氅', cg_sleep_kiss: '梦·吻雪',
+  cg_demon_shadow: '殿中白影', cg_demon_embrace: '黑与白', cg_demon_kiss: '幻灭之吻',
+  cg_leave_bath: '浴桶', cg_leave_drunk: '桂花酿', cg_leave_quilt: '同衾', cg_leave_dawn: '晨炊',
+  cg_refuse_dream: '梦·窗边', cg_refuse_warm: '梦·依偎',
+  cg_arena_moon: '月华复形', cg_arena_tend: '敷药', cg_arena_warm: '偎暖', cg_arena_dawn: '黎明之约'
 };

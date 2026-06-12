@@ -14,6 +14,7 @@
     <div id="bg-a" class="bglayer"></div>
     <div id="bg-b" class="bglayer"></div>
     <div id="sprites"></div>
+    <button id="music-toggle" title="音乐关（点击开启）"><span>♪</span></button>
     <div id="cg-layer" class="hidden"><img id="cg-img" alt=""><div id="cg-fallback" class="hidden"></div></div>
     <div id="chapter-card" class="hidden"><div id="chapter-card-text"></div></div>
 
@@ -32,6 +33,7 @@
         <button data-act="save">存档</button>
         <button data-act="load">读档</button>
         <button data-act="settings">设置</button>
+        <button data-act="hideui">隐藏</button>
         <button data-act="title">标题</button>
       </div>
     </div>
@@ -89,7 +91,7 @@
       <label>文字速度 <input type="range" id="set-speed" min="0" max="100" value="60"></label>
       <label>自动播放间隔 <input type="range" id="set-auto" min="0" max="100" value="50"></label>
       <label>音乐音量 <input type="range" id="set-bgm" min="0" max="100" value="60"></label>
-      <p class="muted tiny">快进只跳过已读文本，遇到新剧情会自动停下。</p>
+      <p class="muted tiny">快进会略过全部文本（含未读），遇到选项时停下。音乐默认关闭，可点右上角 🔊 开启。</p>
       <button class="close" data-close="settings">关闭</button>
     </div>
   </div>
