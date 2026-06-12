@@ -16,12 +16,9 @@
     <div id="sprites"></div>
     <button id="music-toggle" title="声音设置"><span>♪</span></button>
     <div id="sound-pop" class="hidden">
-      <div class="sp-head">
-        <span>声音</span>
-        <button id="sp-toggle" type="button">关</button>
-      </div>
-      <label class="sp-row"><span>音乐</span><input type="range" id="sp-bgm" min="0" max="100"></label>
-      <label class="sp-row"><span>音效</span><input type="range" id="sp-sfx" min="0" max="100"></label>
+      <div class="sp-head"><span>声音设置</span></div>
+      <div class="sp-row"><span>音乐</span><button id="sp-bgm-toggle" type="button">关</button><input type="range" id="sp-bgm" min="0" max="100"></div>
+      <div class="sp-row"><span>音效</span><button id="sp-sfx-toggle" type="button">开</button><input type="range" id="sp-sfx" min="0" max="100"></div>
     </div>
     <div id="cg-layer" class="hidden"><img id="cg-img" alt=""><div id="cg-fallback" class="hidden"></div></div>
     <div id="chapter-card" class="hidden"><div id="chapter-card-text"></div></div>

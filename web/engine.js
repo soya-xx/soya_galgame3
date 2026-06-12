@@ -7,7 +7,7 @@
 
   /* ---------- 全局持久数据 ---------- */
   const GKEY = 'jsg3_global';
-  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, sfxVol: 70, bgmOn: false, skipall: true };
+  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, sfxVol: 70, bgmOn: false, sfxOn: true, skipall: true };
   let G = { read: {}, cg: {}, ends: {}, intel: {}, settings: Object.assign({}, DEFAULT_SETTINGS) };
   try {
     const raw = localStorage.getItem(GKEY);
@@ -71,7 +71,7 @@
   /* ---------- 环境音 + 一次性音效（与音乐共用 bgmOn 开关） ---------- */
   let ambAudio = null, curAmb = null;
   function playAmbient(key) {
-    if (!key || !AMB[key] || !G.settings.bgmOn) { stopAmbient(); return; }
+    if (!key || !AMB[key] || !G.settings.sfxOn) { stopAmbient(); return; }
     if (curAmb === key && ambAudio && !ambAudio.paused) return;
     curAmb = key;
     if (!ambAudio) { ambAudio = new Audio(); ambAudio.loop = true; }
@@ -80,22 +80,22 @@
   }
   function stopAmbient() { curAmb = null; if (ambAudio && !ambAudio.paused) ambAudio.pause(); }
   function playSfx(key) {
-    if (!key || !SFX[key] || !G.settings.bgmOn) return;
+    if (!key || !SFX[key] || !G.settings.sfxOn) return;
     const a = new Audio(SFX[key]); a.volume = Math.min(0.9, (G.settings.sfxVol / 100) * 0.95);
     a.play().catch(() => {});
   }
 
   function syncMusicBtn() {
     const b = $('music-toggle'); if (!b) return;
-    b.classList.toggle('on', G.settings.bgmOn);
+    b.classList.toggle('on', G.settings.bgmOn || G.settings.sfxOn);
     b.title = '声音设置';
   }
   function syncSoundPop() {
-    const t = $('sp-toggle'); if (!t) return;
-    t.textContent = G.settings.bgmOn ? '开' : '关';
-    t.classList.toggle('on', G.settings.bgmOn);
-    $('sp-bgm').value = G.settings.bgm;
-    $('sp-sfx').value = G.settings.sfxVol;
+    const tb = $('sp-bgm-toggle'), ts = $('sp-sfx-toggle');
+    if (tb) { tb.textContent = G.settings.bgmOn ? '开' : '关'; tb.classList.toggle('on', G.settings.bgmOn); }
+    if (ts) { ts.textContent = G.settings.sfxOn ? '开' : '关'; ts.classList.toggle('on', G.settings.sfxOn); }
+    if ($('sp-bgm')) $('sp-bgm').value = G.settings.bgm;
+    if ($('sp-sfx')) $('sp-sfx').value = G.settings.sfxVol;
   }
   function toggleSoundPop() {
     const p = $('sound-pop'); if (!p) return;
@@ -103,14 +103,16 @@
     else p.classList.add('hidden');
   }
   function closeSoundPop() { const p = $('sound-pop'); if (p) p.classList.add('hidden'); }
-  function toggleMusic() {
-    G.settings.bgmOn = !G.settings.bgmOn; saveG(); syncMusicBtn();
-    if (G.settings.bgmOn) {
-      ensureAudio();
-      const node = state && STORY.nodes[state.node];
-      playTrack(node ? node.music : null);
-      playAmbient(node ? node.amb : null);
-    } else { stopMusic(); stopAmbient(); }
+  function curNode() { return state && STORY.nodes[state.node]; }
+  function toggleBgm() {
+    G.settings.bgmOn = !G.settings.bgmOn; saveG(); syncMusicBtn(); syncSoundPop();
+    if (G.settings.bgmOn) { ensureAudio(); const n = curNode(); playTrack(n ? n.music : null); }
+    else stopMusic();
+  }
+  function toggleSfx() {
+    G.settings.sfxOn = !G.settings.sfxOn; saveG(); syncMusicBtn(); syncSoundPop();
+    if (G.settings.sfxOn) { ensureAudio(); const n = curNode(); playAmbient(n ? n.amb : null); }
+    else stopAmbient();
   }
 
   /* ---------- 背景 ---------- */
@@ -311,7 +313,27 @@
     hideChoices();
     typeText(text);
     if (node.end) pendingEnd = node.end; else pendingEnd = null;
+    preloadAhead(node.id);
     saveG();
+  }
+
+  /* ---------- 图片预加载：沿剧情顺序提前各3张（CG/角色/背景） ---------- */
+  const preloaded = new Set();
+  function warm(url) { if (!url || preloaded.has(url)) return; preloaded.add(url); const im = new Image(); im.src = url; }
+  function spriteUrl(c) { const ch = CHARS[c.c]; if (!ch || !ch.sprites) return null; return ch.sprites[c.e] || ch.sprites[ch.defaultExpr] || null; }
+  function preloadAhead(fromId) {
+    const bgs = [], cgs = [], sps = []; const seen = new Set(); let q = [fromId], steps = 0;
+    while (q.length && steps < 80 && (bgs.length < 3 || cgs.length < 3 || sps.length < 3)) {
+      const id = q.shift(); if (!id || seen.has(id)) continue; seen.add(id); steps += 1;
+      const n = STORY.nodes[id]; if (!n) continue;
+      if (n.bg && BGS[n.bg] && bgs.length < 3 && bgs.indexOf(BGS[n.bg]) < 0) bgs.push(BGS[n.bg]);
+      if (n.cg && cgs.length < 3) { const u = 'assets/cg/' + n.cg + '.png'; if (cgs.indexOf(u) < 0) cgs.push(u); }
+      if (n.cast) n.cast.forEach(c => { const u = spriteUrl(c); if (u && sps.length < 3 && sps.indexOf(u) < 0) sps.push(u); });
+      if (n.next) q.push(n.next);
+      if (n.ch) n.ch.forEach(c => q.push(c.go));
+      if (n.auto) { n.auto.forEach(r => q.push(r.go)); if (n.goElse) q.push(n.goElse); }
+    }
+    bgs.concat(cgs, sps).forEach(warm);
   }
 
   let pendingEnd = null;
@@ -606,7 +628,8 @@
     syncMusicBtn();
     syncSoundPop();
     $('music-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleSoundPop(); };
-    $('sp-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleMusic(); syncSoundPop(); };
+    $('sp-bgm-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleBgm(); };
+    $('sp-sfx-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleSfx(); };
     $('sp-bgm').oninput = e => { G.settings.bgm = +e.target.value; if (audio) audio.volume = G.settings.bgm / 100; saveG(); };
     $('sp-sfx').oninput = e => {
       G.settings.sfxVol = +e.target.value;

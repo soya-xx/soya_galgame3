@@ -53,18 +53,18 @@ button { font-family:inherit; cursor:pointer; }
 #music-toggle.on { border-color:rgba(255,255,255,.65); box-shadow:0 0 8px rgba(255,255,255,.35); }
 
 /* 声音设置弹窗 */
-#sound-pop { position:absolute; top:62px; right:14px; z-index:11; width:210px;
+#sound-pop { position:absolute; top:62px; right:14px; z-index:11; width:246px;
   background:rgba(14,17,26,.96); border:1px solid rgba(240,234,216,.22); border-radius:8px;
   padding:14px 16px; display:flex; flex-direction:column; gap:12px; backdrop-filter:blur(4px);
   box-shadow:0 8px 24px rgba(0,0,0,.5); }
-#sound-pop .sp-head { display:flex; align-items:center; justify-content:space-between;
-  color:#ffd98a; font-size:14px; letter-spacing:.15em; padding-bottom:8px; border-bottom:1px solid rgba(240,234,216,.14); }
-#sound-pop .sp-head button { background:rgba(240,234,216,.08); color:#9a937f; border:1px solid rgba(240,234,216,.25);
-  border-radius:4px; padding:3px 14px; font-size:13px; letter-spacing:.1em; min-width:48px; }
-#sound-pop .sp-head button.on { color:#fff; border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.12); }
-#sound-pop .sp-row { display:flex; align-items:center; gap:10px; color:#c9c2ad; font-size:13px; }
-#sound-pop .sp-row span { min-width:30px; letter-spacing:.1em; }
-#sound-pop .sp-row input[type=range] { flex:1; accent-color:#ffd98a; }
+#sound-pop .sp-head { color:#ffd98a; font-size:14px; letter-spacing:.15em;
+  padding-bottom:8px; border-bottom:1px solid rgba(240,234,216,.14); }
+#sound-pop .sp-row { display:flex; align-items:center; gap:9px; color:#c9c2ad; font-size:13px; }
+#sound-pop .sp-row > span { min-width:30px; letter-spacing:.1em; }
+#sound-pop .sp-row button { background:rgba(240,234,216,.08); color:#9a937f; border:1px solid rgba(240,234,216,.25);
+  border-radius:4px; padding:3px 0; width:38px; font-size:12.5px; letter-spacing:.05em; flex:none; }
+#sound-pop .sp-row button.on { color:#fff; border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.12); }
+#sound-pop .sp-row input[type=range] { flex:1; min-width:0; accent-color:#ffd98a; }
 
 /* 隐藏全部UI（截图用）：保留背景/立绘/CG，淡出对话框与控件 */
 #stage.ui-hidden #dialog,
