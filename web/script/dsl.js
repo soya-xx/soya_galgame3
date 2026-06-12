@@ -7,7 +7,7 @@ window.makeChapter = function (prefix, chapterTitle) {
   let seq = 0;
   let pendingId = null;
   let lastNode = null;
-  let cur = { bg: null, music: null, cast: [] };
+  let cur = { bg: null, music: null, amb: null, cast: [] };
 
   function rid(name) { return prefix + '_' + name; }
   /* 绝对id：以已知章节前缀开头；否则视为本章短标签 */
@@ -40,6 +40,7 @@ window.makeChapter = function (prefix, chapterTitle) {
     opts = opts || {};
     if (opts.bg) cur.bg = opts.bg;
     if (opts.music) cur.music = opts.music;
+    if (opts.amb !== undefined) cur.amb = opts.amb;
     if (opts.cast) cur.cast = parseCast(opts.cast);
     const ch = window.CHARS[sp] || {};
     if (sp && !ch.narrator && !ch.player) {
@@ -49,11 +50,12 @@ window.makeChapter = function (prefix, chapterTitle) {
     }
     const node = {
       id: nextId(), sp: sp || 'narr', t: text,
-      bg: cur.bg, music: cur.music, cast: snapshot(),
+      bg: cur.bg, music: cur.music, amb: cur.amb, cast: snapshot(),
       chapter: chapterTitle || ''
     };
     if (opts.cg) node.cg = opts.cg;
     if (opts.cgOff) node.cgOff = true;
+    if (opts.sfx) node.sfx = opts.sfx;
     if (opts.fx) node.fx = opts.fx;
     if (opts.title) node.title = opts.title;
     if (opts.note) node.note = opts.note;
@@ -67,6 +69,7 @@ window.makeChapter = function (prefix, chapterTitle) {
     scene(opts) {
       if (opts.bg !== undefined) cur.bg = opts.bg;
       if (opts.music !== undefined) cur.music = opts.music;
+      if (opts.amb !== undefined) cur.amb = opts.amb;
       if (opts.cast !== undefined) cur.cast = parseCast(opts.cast);
     },
     l: line,

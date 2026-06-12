@@ -3,6 +3,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const STORY = window.STORY, CHARS = window.CHARS, MUSIC = window.MUSIC, BGS = window.BGS;
+  const AMB = window.AMB || {}, SFX = window.SFX || {};
 
   /* ---------- 全局持久数据 ---------- */
   const GKEY = 'jsg3_global';
@@ -67,10 +68,27 @@
       if (audio.volume <= 0) { clearInterval(fadeTimer); audio.pause(); }
     }, 70);
   }
+  /* ---------- 环境音 + 一次性音效（与音乐共用 bgmOn 开关） ---------- */
+  let ambAudio = null, curAmb = null;
+  function playAmbient(key) {
+    if (!key || !AMB[key] || !G.settings.bgmOn) { stopAmbient(); return; }
+    if (curAmb === key && ambAudio && !ambAudio.paused) return;
+    curAmb = key;
+    if (!ambAudio) { ambAudio = new Audio(); ambAudio.loop = true; }
+    ambAudio.src = AMB[key]; ambAudio.volume = Math.min(0.5, (G.settings.bgm / 100) * 0.6);
+    ambAudio.play().catch(() => {});
+  }
+  function stopAmbient() { curAmb = null; if (ambAudio && !ambAudio.paused) ambAudio.pause(); }
+  function playSfx(key) {
+    if (!key || !SFX[key] || !G.settings.bgmOn) return;
+    const a = new Audio(SFX[key]); a.volume = Math.min(0.7, (G.settings.bgm / 100) * 0.9);
+    a.play().catch(() => {});
+  }
+
   function syncMusicBtn() {
     const b = $('music-toggle'); if (!b) return;
     b.classList.toggle('on', G.settings.bgmOn);
-    b.title = G.settings.bgmOn ? '音乐开（点击关闭）' : '音乐关（点击开启）';
+    b.title = G.settings.bgmOn ? '声音开（点击关闭）' : '声音关（点击开启）';
   }
   function toggleMusic() {
     G.settings.bgmOn = !G.settings.bgmOn; saveG(); syncMusicBtn();
@@ -78,7 +96,8 @@
       ensureAudio();
       const node = state && STORY.nodes[state.node];
       playTrack(node ? node.music : null);
-    } else stopMusic();
+      playAmbient(node ? node.amb : null);
+    } else { stopMusic(); stopAmbient(); }
   }
 
   /* ---------- 背景 ---------- */
@@ -260,6 +279,8 @@
     const bgChanged = node.bg !== curBg;
     setBg(node.bg);
     playTrack(node.music);
+    playAmbient(node.amb);
+    if (node.sfx) playSfx(node.sfx);
     renderCg(node, bgChanged);
     renderCast(node);
     const ch = CHARS[node.sp] || {};

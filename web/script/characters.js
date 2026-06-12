@@ -83,6 +83,16 @@ window.MUSIC = {
   battle: 'assets/music/toccata_bwv565.ogg'
 };
 
+/* 环境音（循环）与一次性音效；与音乐共用右上角声音开关 */
+window.AMB = {
+  rain: 'assets/sfx/amb_rain.ogg'
+};
+window.SFX = {
+  knock: 'assets/sfx/sfx_knock.ogg',
+  brick: 'assets/sfx/sfx_brick.ogg',
+  step:  'assets/sfx/sfx_step.ogg'
+};
+
 window.BGS = {
   bg_zayuan:   'assets/backgrounds/bg_zayuan.png',
   bg_room:     'assets/backgrounds/bg_room.png',
@@ -124,5 +134,6 @@ window.CG_TITLES = {
   cg_demon_shadow: '殿中白影', cg_demon_embrace: '黑与白', cg_demon_kiss: '幻灭之吻',
   cg_leave_bath: '浴桶', cg_leave_drunk: '桂花酿', cg_leave_quilt: '同衾', cg_leave_dawn: '晨炊',
   cg_refuse_dream: '梦·窗边', cg_refuse_warm: '梦·依偎',
-  cg_arena_moon: '月华复形', cg_arena_tend: '敷药', cg_arena_warm: '偎暖', cg_arena_dawn: '黎明之约'
+  cg_arena_moon: '月华复形', cg_arena_tend: '敷药', cg_arena_warm: '偎暖', cg_arena_dawn: '黎明之约',
+  cg_steady_hand: '稳住的手'
 };
