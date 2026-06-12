@@ -7,7 +7,7 @@
 
   /* ---------- 全局持久数据 ---------- */
   const GKEY = 'jsg3_global';
-  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, bgmOn: false, skipall: true };
+  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, sfxVol: 70, bgmOn: false, skipall: true };
   let G = { read: {}, cg: {}, ends: {}, intel: {}, settings: Object.assign({}, DEFAULT_SETTINGS) };
   try {
     const raw = localStorage.getItem(GKEY);
@@ -75,21 +75,34 @@
     if (curAmb === key && ambAudio && !ambAudio.paused) return;
     curAmb = key;
     if (!ambAudio) { ambAudio = new Audio(); ambAudio.loop = true; }
-    ambAudio.src = AMB[key]; ambAudio.volume = Math.min(0.5, (G.settings.bgm / 100) * 0.6);
+    ambAudio.src = AMB[key]; ambAudio.volume = Math.min(0.55, (G.settings.sfxVol / 100) * 0.6);
     ambAudio.play().catch(() => {});
   }
   function stopAmbient() { curAmb = null; if (ambAudio && !ambAudio.paused) ambAudio.pause(); }
   function playSfx(key) {
     if (!key || !SFX[key] || !G.settings.bgmOn) return;
-    const a = new Audio(SFX[key]); a.volume = Math.min(0.7, (G.settings.bgm / 100) * 0.9);
+    const a = new Audio(SFX[key]); a.volume = Math.min(0.9, (G.settings.sfxVol / 100) * 0.95);
     a.play().catch(() => {});
   }
 
   function syncMusicBtn() {
     const b = $('music-toggle'); if (!b) return;
     b.classList.toggle('on', G.settings.bgmOn);
-    b.title = G.settings.bgmOn ? '声音开（点击关闭）' : '声音关（点击开启）';
+    b.title = '声音设置';
   }
+  function syncSoundPop() {
+    const t = $('sp-toggle'); if (!t) return;
+    t.textContent = G.settings.bgmOn ? '开' : '关';
+    t.classList.toggle('on', G.settings.bgmOn);
+    $('sp-bgm').value = G.settings.bgm;
+    $('sp-sfx').value = G.settings.sfxVol;
+  }
+  function toggleSoundPop() {
+    const p = $('sound-pop'); if (!p) return;
+    if (p.classList.contains('hidden')) { syncSoundPop(); p.classList.remove('hidden'); }
+    else p.classList.add('hidden');
+  }
+  function closeSoundPop() { const p = $('sound-pop'); if (p) p.classList.add('hidden'); }
   function toggleMusic() {
     G.settings.bgmOn = !G.settings.bgmOn; saveG(); syncMusicBtn();
     if (G.settings.bgmOn) {
@@ -531,8 +544,9 @@
   /* ---------- 事件绑定 ---------- */
   function bind() {
     $('stage').addEventListener('click', (ev) => {
-      if (ev.target.closest('#vn-bar') || ev.target.closest('#choices') || ev.target.closest('#chapter-card') || ev.target.closest('#music-toggle')) return;
+      if (ev.target.closest('#vn-bar') || ev.target.closest('#choices') || ev.target.closest('#chapter-card') || ev.target.closest('#music-toggle') || ev.target.closest('#sound-pop')) return;
       ensureAudio();
+      if (!$('sound-pop').classList.contains('hidden')) { closeSoundPop(); return; }
       if (uiHidden) { setHideUI(false); return; }
       if (skipOn) { setSkip(false); return; }
       advance();
@@ -590,14 +604,25 @@
     $('ending-flow').onclick = () => { renderFlow(); openOverlay('flow'); };
 
     syncMusicBtn();
-    $('music-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleMusic(); };
+    syncSoundPop();
+    $('music-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleSoundPop(); };
+    $('sp-toggle').onclick = (ev) => { ev.stopPropagation(); ensureAudio(); toggleMusic(); syncSoundPop(); };
+    $('sp-bgm').oninput = e => { G.settings.bgm = +e.target.value; if (audio) audio.volume = G.settings.bgm / 100; saveG(); };
+    $('sp-sfx').oninput = e => {
+      G.settings.sfxVol = +e.target.value;
+      if (ambAudio) ambAudio.volume = Math.min(0.55, (G.settings.sfxVol / 100) * 0.6);
+      saveG();
+    };
+    $('sound-pop').addEventListener('click', ev => ev.stopPropagation());
 
     $('set-speed').value = G.settings.speed;
     $('set-auto').value = G.settings.auto;
     $('set-bgm').value = G.settings.bgm;
+    $('set-sfx').value = G.settings.sfxVol;
     $('set-speed').oninput = e => { G.settings.speed = +e.target.value; saveG(); };
     $('set-auto').oninput = e => { G.settings.auto = +e.target.value; saveG(); };
-    $('set-bgm').oninput = e => { G.settings.bgm = +e.target.value; if (audio) audio.volume = G.settings.bgm / 100; saveG(); };
+    $('set-bgm').oninput = e => { G.settings.bgm = +e.target.value; if (audio) audio.volume = G.settings.bgm / 100; syncSoundPop(); saveG(); };
+    $('set-sfx').oninput = e => { G.settings.sfxVol = +e.target.value; if (ambAudio) ambAudio.volume = Math.min(0.55, (G.settings.sfxVol / 100) * 0.6); syncSoundPop(); saveG(); };
 
     document.addEventListener('keydown', (ev) => {
       if ($('name-modal') && !$('name-modal').classList.contains('hidden')) return;
