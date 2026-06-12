@@ -3,7 +3,7 @@ window.CHARS = {
   narr: { narrator: true },
   mc:   { player: true },
   soya: {
-    name: '向向', cls: 'soya', pos: 'right', defaultExpr: 'smile',
+    name: '向向', cls: 'soya', actor: 'xiang', pos: 'right', defaultExpr: 'smile',
     sprites: {
       smile: 'assets/characters/soya_smile.png',
       joy:   'assets/characters/soya_joy.png',
@@ -16,7 +16,7 @@ window.CHARS = {
     }
   },
   cat: {
-    name: '猫', cls: 'soya', pos: 'left', small: true, defaultExpr: 'normal',
+    name: '猫', cls: 'soya', actor: 'xiang', pos: 'left', small: true, defaultExpr: 'normal',
     /* 猫形态只有3张图，情绪用就近映射 */
     sprites: {
       normal: 'assets/characters/cat_normal.png',

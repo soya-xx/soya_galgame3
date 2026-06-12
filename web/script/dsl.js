@@ -18,7 +18,7 @@ window.makeChapter = function (prefix, chapterTitle) {
   }
   function snapshot() { return cur.cast.map(e => ({ c: e.c, e: e.e, pos: e.pos })); }
   function parseCast(arr) {
-    return (arr || []).map(s => {
+    const list = (arr || []).map(s => {
       if (typeof s !== 'string') return s;
       let pos = null, rest = s;
       const at = s.indexOf('@'); if (at >= 0) { pos = s.slice(at + 1); rest = s.slice(0, at); }
@@ -26,6 +26,14 @@ window.makeChapter = function (prefix, chapterTitle) {
       const def = (window.CHARS[c] || {});
       return { c, e: e || def.defaultExpr || null, pos: pos || def.pos || 'left' };
     });
+    /* 同一 actor（如向向的猫/人形态）互斥，只保留最后出现的那个 */
+    const seen = {}; const out = [];
+    for (let i = list.length - 1; i >= 0; i--) {
+      const a = (window.CHARS[list[i].c] || {}).actor;
+      if (a) { if (seen[a]) continue; seen[a] = 1; }
+      out.unshift(list[i]);
+    }
+    return out;
   }
   function push(node) {
     if (S.nodes[node.id]) throw new Error('重复节点id: ' + node.id);
@@ -44,6 +52,8 @@ window.makeChapter = function (prefix, chapterTitle) {
     if (opts.cast) cur.cast = parseCast(opts.cast);
     const ch = window.CHARS[sp] || {};
     if (sp && !ch.narrator && !ch.player) {
+      /* 同一 actor 的其它形态（猫/人）入列前先移除，避免双立绘叠加 */
+      if (ch.actor) cur.cast = cur.cast.filter(e => e.c === sp || (window.CHARS[e.c] || {}).actor !== ch.actor);
       let entry = cur.cast.find(e => e.c === sp);
       if (!entry) { entry = { c: sp, e: expr || ch.defaultExpr || null, pos: ch.pos || 'left' }; cur.cast.push(entry); }
       if (expr) entry.e = expr;
