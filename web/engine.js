@@ -260,8 +260,11 @@
       skipTimer = setInterval(() => {
         const node = STORY.nodes[state.node];
         if (!node || node.ch) { setSkip(false); return; }
-        /* 快进跳过全部文本（含未读）；遇到选项分支才停 */
+        /* 快进跳过全部文本（含未读）；遇到选项分支或新CG才停 */
+        const prevCg = node.cg || null;
         completeType(); advance();
+        const cur = STORY.nodes[state.node];
+        if (cur && cur.cg && cur.cg !== prevCg) { setSkip(false); }
       }, 70);
     }
   }

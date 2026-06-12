@@ -23,22 +23,26 @@ MODEL     = "nano-banana-pro"
 CTX       = ssl._create_unverified_context()
 
 
-def enhance(input_path: str, output_path: str, prompt: str) -> str:
-    # 1. Resize to 512px to keep payload small
+def _b64(path: str) -> str:
     tmp = tempfile.mktemp(suffix=".png")
-    subprocess.run(
-        ["sips", "-Z", "512", input_path, "--out", tmp],
-        capture_output=True, check=True
-    )
+    subprocess.run(["sips", "-Z", "512", path, "--out", tmp], capture_output=True, check=True)
     with open(tmp, "rb") as f:
-        img_b64 = base64.b64encode(f.read()).decode()
+        b = base64.b64encode(f.read()).decode()
     os.unlink(tmp)
+    return f"data:image/png;base64,{b}"
+
+
+def enhance(input_path: str, output_path: str, prompt: str, anchor_path: str = None) -> str:
+    # 1. 基图 +（可选）锚图，512px 压缩
+    images = [_b64(input_path)]
+    if anchor_path and os.path.exists(anchor_path):
+        images.append(_b64(anchor_path))
 
     # 2. Call grsai img2img
     payload = {
         "model": MODEL,
         "prompt": prompt,
-        "images": [f"data:image/png;base64,{img_b64}"],
+        "images": images,
         "aspectRatio": "3:2",
         "imageSize": "2K",
         "replyType": "json",
@@ -76,16 +80,24 @@ PROMPTS = {
     "cg_reforge_close": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, dark room midnight golden light. "
         "Cute cat-girl with cream-blonde wavy hair in two side buns, fluffy cat ears pink inner, big blue eyes, "
-        "pink ribbon bow, black choker with golden bell. She kneels very close to the protagonist channeling golden energy, "
-        "her collar loosened further revealing collarbone and upper chest, hanfu sliding off one shoulder, "
-        "her face flushed and lips slightly parted, eyes half-lidded. Keep same composition as reference, maximize allure."
+        "pink ribbon bow, black choker with golden bell. She kneels very close to the protagonist channeling golden energy. "
+        "She is intensely SHY: her eyes are averted and lowered, NOT looking at him, deep crimson blush, biting her lip. "
+        "Her spirit-silk hanfu is only half-woven and minimal — thin glowing ribbons of light barely covering her, "
+        "both shoulders and most of her back bare, collarbone and the sides of her chest exposed, "
+        "the gauze just barely enough to cover her front. Keep her face/hair/ears identical to the anchor reference. "
+        "Bashful, modest yet revealing, tasteful."
     ),
     "cg_bed_morning": (
-        "high-quality anime visual novel event CG, Chinese xianxia fantasy, morning sunlight warm room. "
+        "high-quality anime visual novel event CG, Chinese xianxia fantasy. "
+        "BRIGHT clear MORNING, warm golden sunlight streaming through the window, blue sky outside, the rain has stopped, "
+        "fresh daylight filling the wooden room. "
         "Cute cat-girl with cream-blonde wavy hair in two side buns, fluffy cat ears, big blue eyes, "
-        "pink ribbon bow, black choker with golden bell, fluffy tail. Curled up on bed, the hanfu and sheets "
-        "have slipped off both shoulders, more of her bare back and side visible, cat ears flopped sideways, "
-        "sleeping face slightly open mouth and rosy cheek. Maximize cozy revealing charm."
+        "pink ribbon bow, black choker with golden bell, fluffy tail. She lies curled asleep on the bed having just "
+        "transferred her energy the night before, so she wears almost nothing — only a thin loose gauze barely draped "
+        "over her, the silk slipped right down exposing her entire bare back, bare shoulders and the curve of her waist "
+        "and hip, one leg slipping out from the thin sheet, a hint of side-chest. Cat ears flopped, peaceful sleeping "
+        "face with rosy cheeks. Keep her face/hair/ears identical to the anchor reference. Spring-morning allure, "
+        "minimal fabric, tasteful glamour."
     ),
     "cg_ear_closeup": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, night candlelight. "
@@ -162,12 +174,14 @@ PROMPTS = {
         "Maximize the revealed skin through the half-formed dress, keep it magical and tasteful."
     ),
     "cg_morning_dress": (
-        "high-quality anime visual novel event CG, Chinese xianxia fantasy, warm morning sunlight through window. "
-        "Cute cat-girl with cream-blonde wavy hair, fluffy cat ears, big blue eyes, pink bow, black choker golden bell, fluffy tail. "
-        "Standing back to viewer glancing over her shoulder with deep blush, the loosened hanfu slipped further down "
-        "to her waist, her entire smooth bare back and shoulder blades fully revealed in the sunbeam, "
-        "pink silk ribbons weaving the dress closed from the waist up, cat ears flat, tail puffed. "
-        "Maximize the bare back exposure and morning glow allure."
+        "high-quality anime visual novel event CG, Chinese xianxia fantasy, bright warm morning sunlight, clear sky, no rain. "
+        "Cute PETITE cat-girl, cream-blonde wavy hair with two small side buns, fluffy cream cat ears with pink inner, "
+        "big round blue eyes, small pink ribbon bow, black choker with a small golden bell, fluffy cream tail. "
+        "KEEP her face, hairstyle, ears, eyes, bow, bell and tail EXACTLY identical to the anchor reference image — same cute youthful face, do not change her look. "
+        "She stands with her back to the viewer, glancing shyly over her shoulder with a deep blush, eyes lowered and averted. "
+        "Her thin pink-white hanfu has slipped all the way down to her hips, her entire smooth bare back, shoulder blades "
+        "and the dimples of her lower back fully revealed, a glowing pink silk ribbon loosely wound at her waist, "
+        "long hair cascading over one shoulder. Elegant, alluring, tasteful — same character as reference, just bolder exposure."
     ),
     "cg_check_bone": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, dim candlelit night room. "
@@ -194,6 +208,13 @@ _CATGIRL = (
 _CG = "high-quality anime visual novel event CG, Chinese xianxia fantasy. "
 
 PROMPTS.update({
+    "cg_spring": _CG + _CATGIRL + (
+        "Night misty bamboo hot spring, lanterns, fireflies, moon. She is BATHING, submerged in the steaming spring "
+        "water up to her shoulders — keep her in the water, only head, neck and bare shoulders above the misty waterline, "
+        "wet hair clinging, turning back over her shoulder with a startled flustered blush. Steam and water cover everything "
+        "below the shoulders. Keep the same in-water composition as the input, just render it much crisper, cleaner and more "
+        "beautiful, sharp detailed soft anime art. Keep her cute youthful face."
+    ),
     "cg_true_bath": _CG + _CATGIRL + (
         "Night sacred hot spring, red lanterns, steam. She soaks in milky glowing water, "
         "rising slightly so her bare shoulders, collarbone and upper chest emerge from the waterline, "
@@ -331,6 +352,8 @@ if __name__ == "__main__":
     }
     prompt = PROMPTS[cg_key] + AMP_SUFFIX.get(os.environ.get("AMP", ""), "")
 
-    print(f"[enhance_cg] {cg_key}: {input_path} → {output_path} (AMP={os.environ.get('AMP','0')})")
-    url = enhance(input_path, output_path, prompt)
+    # ANCHOR 环境变量：传入角色锚图给 grsai 锁定一致性，避免 OOC
+    anchor = os.environ.get("ANCHOR") or None
+    print(f"[enhance_cg] {cg_key}: {input_path} → {output_path} (AMP={os.environ.get('AMP','0')}, ANCHOR={anchor})")
+    url = enhance(input_path, output_path, prompt, anchor)
     print(f"[enhance_cg] Done. Source URL: {url}")
