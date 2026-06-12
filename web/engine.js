@@ -7,7 +7,7 @@
 
   /* ---------- 全局持久数据 ---------- */
   const GKEY = 'jsg3_global';
-  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, sfxVol: 70, bgmOn: false, sfxOn: true, skipall: true };
+  const DEFAULT_SETTINGS = { speed: 60, auto: 50, bgm: 60, sfxVol: 70, bgmOn: false, sfxOn: false, skipall: true };
   let G = { read: {}, cg: {}, ends: {}, intel: {}, settings: Object.assign({}, DEFAULT_SETTINGS) };
   try {
     const raw = localStorage.getItem(GKEY);

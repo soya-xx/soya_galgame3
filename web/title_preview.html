@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开屏方案预览 · 剑神三千年</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; overflow:hidden; background:#0a0c12; }
+body { font-family:"Source Han Serif SC","Noto Serif SC","Songti SC","STSong",serif; color:#f0ead8; }
+button { font-family:inherit; cursor:pointer; background:none; border:none; color:inherit; }
+
+.ver { position:absolute; inset:0; display:none; overflow:hidden; }
+.ver.active { display:block; }
+
+/* ===== 公共：背景 / 角色 / 粒子 ===== */
+.bg { position:absolute; inset:-4%;
+  background-size:cover; background-position:center; will-change:transform;
+  transform:translate(calc(var(--mx,0)*-10px), calc(var(--my,0)*-6px));
+  animation:kenburns 36s ease-in-out infinite alternate; }
+@keyframes kenburns { from { scale:1.02; } to { scale:1.1; } }
+
+.char-wrap { position:absolute; z-index:5; pointer-events:none; will-change:transform;
+  transform:translate(calc(var(--mx,0)*16px), calc(var(--my,0)*8px)); }
+.char-sway { height:100%; transform-origin:50% 100%; animation:sway 7.5s ease-in-out infinite; }
+.char-sway img { height:100%; width:auto; display:block; animation:bob 5.5s ease-in-out infinite; }
+@keyframes sway { 0%,100% { rotate:-.55deg; } 50% { rotate:.55deg; } }
+@keyframes bob { 0%,100% { translate:0 0; } 50% { translate:0 -9px; } }
+
+.pbox { position:absolute; inset:0; z-index:6; pointer-events:none; overflow:hidden; }
+.p { position:absolute; will-change:transform,opacity; }
+.p.petal { background:radial-gradient(circle at 35% 35%, #ffd9e6, #f7a8c4 65%, #e98ab1);
+  border-radius:62% 4% 62% 4%; opacity:0; animation:fall linear infinite; }
+@keyframes fall {
+  0% { transform:translate(0,-6vh) rotate(0deg); opacity:0; }
+  8% { opacity:.9; } 80% { opacity:.8; }
+  100% { transform:translate(var(--dx,40px),108vh) rotate(var(--rot,520deg)); opacity:0; } }
+.p.fly { border-radius:50%; background:#ffe9a8; filter:blur(1px);
+  box-shadow:0 0 8px 3px rgba(255,224,140,.55); opacity:0; animation:drift ease-in-out infinite; }
+@keyframes drift {
+  0% { transform:translate(0,0); opacity:0; }
+  15% { opacity:.85; } 50% { transform:translate(var(--dx,30px),-46vh); opacity:.35; }
+  70% { opacity:.8; } 100% { transform:translate(calc(var(--dx,30px)*1.6),-92vh); opacity:0; } }
+.p.dust { border-radius:50%; background:#ffe2a0; filter:blur(.4px);
+  box-shadow:0 0 6px 1px rgba(255,210,120,.5); opacity:0; animation:rise linear infinite; }
+.p.spark { width:2px !important; border-radius:2px;
+  background:linear-gradient(to top, transparent, #ffd98a 40%, #fff3d0);
+  box-shadow:0 0 6px 1px rgba(255,200,90,.6); opacity:0; animation:rise linear infinite; }
+@keyframes rise {
+  0% { transform:translate(0,4vh); opacity:0; }
+  12% { opacity:.95; } 78% { opacity:.7; }
+  100% { transform:translate(var(--dx,-20px),-106vh); opacity:0; } }
+
+.vignette { position:absolute; inset:0; z-index:7; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%, transparent 52%, rgba(5,6,10,.52) 100%); }
+
+@keyframes fadeup { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:none; } }
+@keyframes fadein { from { opacity:0; } to { opacity:1; } }
+
+/* ===================================================== */
+/* 方案壹 · 月夜竹海 —— 竖排题字 / 朱印 / 花瓣流萤 / 猫 */
+/* ===================================================== */
+#v1 .bg { background-image:linear-gradient(rgba(8,10,18,.12), rgba(8,10,18,.38)), url(assets/backgrounds/bg_houshan.png); }
+#v1 .moonhalo { position:absolute; z-index:4; right:2vw; bottom:-12vh; width:56vh; height:100vh;
+  background:radial-gradient(ellipse at 50% 62%, rgba(168,196,255,.28), transparent 62%);
+  pointer-events:none; animation:halopulse 6s ease-in-out infinite; }
+@keyframes halopulse { 0%,100% { opacity:.7; } 50% { opacity:1; } }
+#v1 .char-wrap { right:5vw; bottom:0; height:88vh; }
+#v1 .char-sway img { filter:drop-shadow(0 0 26px rgba(150,185,255,.38)) drop-shadow(0 10px 24px rgba(0,0,0,.5)); }
+#v1 .cat-wrap { position:absolute; z-index:5; right:30vw; bottom:1vh; height:19vh; pointer-events:none;
+  will-change:transform; transform:translate(calc(var(--mx,0)*22px), calc(var(--my,0)*10px)); }
+#v1 .cat-wrap img { height:100%; animation:bob 4.6s ease-in-out 1.2s infinite;
+  filter:drop-shadow(0 0 14px rgba(150,185,255,.3)) drop-shadow(0 6px 14px rgba(0,0,0,.5)); }
+#v1 .ink { position:absolute; z-index:8; left:7vw; top:9vh; display:flex; gap:2.2vw; align-items:flex-start; }
+#v1 h1 { writing-mode:vertical-rl; font-size:clamp(46px,8vh,78px); font-weight:700;
+  letter-spacing:.24em; color:#f5efdd; line-height:1;
+  text-shadow:0 0 30px rgba(168,196,255,.45), 0 2px 4px rgba(0,0,0,.6);
+  animation:fadeup 1.1s .15s ease both; }
+#v1 .col2 { display:flex; flex-direction:column; align-items:center; gap:2.5vh; margin-top:1vh; }
+#v1 .inkline { width:1px; height:34vh;
+  background:linear-gradient(to bottom, rgba(255,217,138,.85), rgba(255,217,138,.06));
+  animation:fadein 1.4s .5s ease both; }
+#v1 .seal { writing-mode:vertical-rl;
+  background:#b3322b; color:#f7ecd9; font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+  font-size:clamp(13px,2vh,18px); letter-spacing:.18em; padding:10px 5px;
+  border-radius:3px; box-shadow:0 2px 10px rgba(179,50,43,.5); rotate:2deg;
+  animation:fadeup 1s .8s ease both; }
+#v1 .sub { position:absolute; z-index:8; left:7vw; bottom:32vh; max-width:30vw;
+  font-family:"Kaiti SC","STKaiti","KaiTi",serif; font-size:clamp(13px,1.9vh,17px);
+  color:#c8c2ae; letter-spacing:.12em; line-height:2; animation:fadeup 1s 1s ease both; }
+#v1 .menu { position:absolute; z-index:8; left:7vw; bottom:5vh; display:flex; flex-direction:column; gap:1.6vh;
+  animation:fadeup 1s 1.2s ease both; }
+#v1 .menu button { display:flex; align-items:center; gap:14px; font-size:clamp(14px,2vh,17px);
+  letter-spacing:.42em; color:#ddd6c2; transition:color .25s; padding:2px 0; text-align:left; }
+#v1 .menu button::before { content:''; width:26px; height:1px; background:#8b8470; transition:all .3s; }
+#v1 .menu button:hover { color:#ffd98a; }
+#v1 .menu button:hover::before { width:48px; background:#ffd98a; box-shadow:0 0 8px rgba(255,217,138,.7); }
+
+/* ===================================================== */
+/* 方案贰 · 云海破晓 —— 鎏金题字 / 「剑」字水印 / 金尘 */
+/* ===================================================== */
+#v2 .bg { background-image:linear-gradient(rgba(20,12,8,.08), rgba(24,12,8,.4)), url(assets/backgrounds/bg_dawn.png); }
+#v2 .char-wrap { left:6vw; bottom:0; height:86vh; }
+#v2 .mist { position:absolute; z-index:5; left:1vw; bottom:-4vh; width:42vw; height:16vh; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%, rgba(255,238,214,.5), rgba(255,238,214,.14) 55%, transparent 75%);
+  filter:blur(10px); animation:halopulse 7s ease-in-out infinite; }
+#v2 .char-sway { animation-delay:.8s; }
+#v2 .char-sway img { filter:drop-shadow(0 0 30px rgba(255,190,120,.4)) drop-shadow(0 10px 24px rgba(60,20,10,.5)); }
+#v2 .watermark { position:absolute; z-index:3; right:-4vw; bottom:-10vh; font-size:64vh; line-height:1;
+  font-family:"Kaiti SC","STKaiti","KaiTi",serif; color:rgba(255,240,210,.07); pointer-events:none;
+  will-change:transform; transform:translate(calc(var(--mx,0)*-14px), calc(var(--my,0)*-8px)); }
+#v2 .right { position:absolute; z-index:8; right:8vw; top:0; bottom:0; display:flex;
+  flex-direction:column; justify-content:center; align-items:flex-end; text-align:right; }
+#v2 h1 { font-size:clamp(40px,min(10vh,6.5vw),92px); font-weight:700; white-space:nowrap;
+  letter-spacing:.16em; margin-right:-.16em;
+  background:linear-gradient(168deg, #fff6dd 18%, #ffd98a 44%, #e8a84f 60%, #fff2cc 82%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 3px 6px rgba(40,16,4,.55)); animation:fadeup 1.1s .15s ease both; }
+#v2 .rule { width:30vw; height:1px; margin:2.6vh 0;
+  background:linear-gradient(to left, #ffd98a, rgba(255,217,138,.05));
+  animation:fadein 1.4s .5s ease both; }
+#v2 .sub { font-family:"Kaiti SC","STKaiti","KaiTi",serif; font-size:clamp(13px,2vh,17px);
+  color:#e8d9bd; letter-spacing:.1em; line-height:2; max-width:36vw; text-shadow:0 1px 3px rgba(40,16,4,.6);
+  animation:fadeup 1s .7s ease both; }
+#v2 .menu { display:flex; flex-direction:column; gap:1.9vh; margin-top:5.5vh; align-items:flex-end;
+  animation:fadeup 1s 1s ease both; }
+#v2 .menu button { display:flex; align-items:center; gap:12px; font-size:clamp(15px,2.2vh,19px);
+  letter-spacing:.4em; margin-right:-.4em; color:#f3e8cf; text-shadow:0 1px 3px rgba(40,16,4,.6); transition:color .25s; }
+#v2 .menu button::after { content:'◆'; font-size:8px; color:#caa256; transition:all .3s; }
+#v2 .menu button:hover { color:#fff1c4; }
+#v2 .menu button:hover::after { color:#ffd98a; text-shadow:0 0 10px rgba(255,217,138,.9); transform:rotate(45deg); }
+
+/* ===================================================== */
+/* 方案叁 · 鎏金天阙 —— 登仙台居中构图 / 雷光 / 金芒 */
+/* ===================================================== */
+#v3 .bg { background-image:linear-gradient(rgba(14,8,24,.1), rgba(14,8,24,.45)), url(assets/backgrounds/bg_feisheng.png); }
+#v3 .flash { position:absolute; inset:0; z-index:4; pointer-events:none;
+  background:linear-gradient(200deg, rgba(190,150,255,.5), rgba(255,235,190,.18) 55%, transparent);
+  opacity:0; animation:flash 9s linear infinite; }
+@keyframes flash { 0%,57.6%,58.4%,60%,61%,100% { opacity:0; } 58% { opacity:.34; } 60.5% { opacity:.5; } }
+#v3 .char-wrap { left:50%; bottom:6vh; height:64vh; translate:-50% 0;
+  transform:translate(calc(var(--mx,0)*14px), calc(var(--my,0)*7px)); }
+#v3 .char-sway { animation-duration:8.5s; }
+#v3 .char-sway img { animation-duration:6s;
+  filter:drop-shadow(0 0 34px rgba(255,206,110,.5)) drop-shadow(0 0 80px rgba(180,130,255,.35)); }
+#v3 .feetglow { position:absolute; z-index:4; left:50%; bottom:5vh; width:46vh; height:9vh; translate:-50% 0;
+  background:radial-gradient(ellipse, rgba(255,212,120,.5), transparent 68%);
+  pointer-events:none; animation:halopulse 4s ease-in-out infinite; }
+#v3 .head { position:absolute; z-index:8; top:5.5vh; left:0; right:0; text-align:center; }
+#v3 .orna { display:flex; align-items:center; justify-content:center; gap:2vw; color:#caa256;
+  font-size:12px; letter-spacing:.5em; animation:fadein 1.4s .6s ease both; }
+#v3 .orna::before, #v3 .orna::after { content:''; width:14vw; height:1px;
+  background:linear-gradient(to right, transparent, #caa256, transparent); }
+#v3 h1 { font-size:clamp(40px,min(9.5vh,11vw),88px); font-weight:700; white-space:nowrap;
+  letter-spacing:.34em; margin:1.2vh 0 0 .34em;
+  background:linear-gradient(180deg, #fff8e2 24%, #ffd98a 52%, #c98e3f 66%, #ffefc2 88%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 24px rgba(255,206,110,.4)) drop-shadow(0 3px 5px rgba(10,4,20,.7));
+  animation:fadeup 1.2s .15s ease both; }
+#v3 .sub { margin-top:1.6vh; font-family:"Kaiti SC","STKaiti","KaiTi",serif;
+  font-size:clamp(13px,2vh,17px); color:#d9cdb4; letter-spacing:.22em;
+  text-shadow:0 1px 4px rgba(10,4,20,.8); animation:fadeup 1s .8s ease both; }
+#v3 .menu { position:absolute; z-index:8; bottom:5.5vh; left:0; right:0;
+  display:flex; justify-content:center; gap:3.4vw; animation:fadeup 1s 1.1s ease both; }
+#v3 .menu button { position:relative; font-size:clamp(14px,2.1vh,18px); letter-spacing:.32em;
+  padding:1.2vh 0 .9vh; color:#e6dcc4; text-shadow:0 1px 4px rgba(10,4,20,.8); transition:color .25s; }
+#v3 .menu button::after { content:''; position:absolute; left:50%; bottom:0; width:0; height:1px;
+  translate:-50% 0; background:#ffd98a; box-shadow:0 0 8px rgba(255,217,138,.8); transition:width .3s; }
+#v3 .menu button:hover { color:#ffe9b0; }
+#v3 .menu button:hover::after { width:100%; }
+
+/* ===== 版本号 / 切换器（预览用） ===== */
+.gamever { position:absolute; z-index:8; bottom:2.2vh; right:2vw; font-size:12px;
+  color:rgba(220,212,190,.5); letter-spacing:.15em; }
+#switcher { position:fixed; z-index:99; bottom:14px; left:14px; display:flex; gap:8px; }
+#switcher button { width:38px; height:38px; border-radius:50%; border:1px solid rgba(240,234,216,.35);
+  background:rgba(10,13,20,.7); color:#cfc8b2; font-size:15px; backdrop-filter:blur(3px); transition:all .2s; }
+#switcher button.on { border-color:#ffd98a; color:#ffd98a; box-shadow:0 0 10px rgba(255,217,138,.5); }
+</style>
+</head>
+<body>
+
+<!-- 方案壹 · 月夜竹海 -->
+<section class="ver" id="v1">
+  <div class="bg"></div>
+  <div class="moonhalo"></div>
+  <div class="char-wrap"><div class="char-sway"><img src="assets/characters/soya_calm.png" alt=""></div></div>
+  <div class="cat-wrap"><img src="assets/characters/cat_normal.png" alt=""></div>
+  <div class="pbox"></div>
+  <div class="vignette"></div>
+  <div class="ink">
+    <h1>剑神三千年</h1>
+    <div class="col2"><div class="inkline"></div><div class="seal">叁仟年</div></div>
+  </div>
+  <p class="sub">全宗门都当你是废柴，<br>只有一只猫，叫你三千年前的名字。</p>
+  <div class="menu">
+    <button>新的轮回</button>
+    <button>继续修行</button>
+    <button>读取存档</button>
+    <button>分支·结局</button>
+    <button>CG鉴赏</button>
+    <button>设置</button>
+  </div>
+  <p class="gamever">v1.0 · 单女主 · 向向Soya</p>
+</section>
+
+<!-- 方案贰 · 云海破晓 -->
+<section class="ver" id="v2">
+  <div class="bg"></div>
+  <div class="watermark">剑</div>
+  <div class="char-wrap"><div class="char-sway"><img src="assets/characters/soya_smile.png" alt=""></div></div>
+  <div class="mist"></div>
+  <div class="pbox"></div>
+  <div class="vignette"></div>
+  <div class="right">
+    <h1>剑神三千年</h1>
+    <div class="rule"></div>
+    <p class="sub">全宗门都当你是废柴，<br>只有一只猫，叫你三千年前的名字。</p>
+    <div class="menu">
+      <button>新的轮回</button>
+      <button>继续修行</button>
+      <button>读取存档</button>
+      <button>分支·结局</button>
+      <button>CG鉴赏</button>
+      <button>设置</button>
+    </div>
+  </div>
+  <p class="gamever">v1.0 · 单女主 · 向向Soya</p>
+</section>
+
+<!-- 方案叁 · 鎏金天阙 -->
+<section class="ver" id="v3">
+  <div class="bg"></div>
+  <div class="flash"></div>
+  <div class="feetglow"></div>
+  <div class="char-wrap"><div class="char-sway"><img src="assets/characters/soya_calm.png" alt=""></div></div>
+  <div class="pbox"></div>
+  <div class="vignette"></div>
+  <div class="head">
+    <div class="orna">飞 升 之 路</div>
+    <h1>剑神三千年</h1>
+    <p class="sub">全宗门都当你是废柴，只有一只猫，叫你三千年前的名字。</p>
+  </div>
+  <div class="menu">
+    <button>新的轮回</button>
+    <button>继续修行</button>
+    <button>读取存档</button>
+    <button>分支·结局</button>
+    <button>CG鉴赏</button>
+    <button>设置</button>
+  </div>
+  <p class="gamever">v1.0 · 单女主 · 向向Soya</p>
+</section>
+
+<div id="switcher">
+  <button data-v="1">壹</button>
+  <button data-v="2">贰</button>
+  <button data-v="3">叁</button>
+</div>
+
+<script>
+// 粒子生成
+function spawn(boxSel, kind, count, conf) {
+  const box = document.querySelector(boxSel);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'p ' + kind;
+    const s = conf.size[0] + Math.random() * (conf.size[1] - conf.size[0]);
+    el.style.width = s + 'px';
+    el.style.height = (kind === 'spark' ? s * 6 : s) + 'px';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.top = conf.fromBottom ? (92 + Math.random() * 10) + '%' : (Math.random() * 100) + '%';
+    el.style.setProperty('--dx', (conf.dx[0] + Math.random() * (conf.dx[1] - conf.dx[0])) + 'px');
+    el.style.setProperty('--rot', (360 + Math.random() * 400) + 'deg');
+    el.style.animationDuration = (conf.dur[0] + Math.random() * (conf.dur[1] - conf.dur[0])) + 's';
+    el.style.animationDelay = (-Math.random() * conf.dur[1]) + 's';
+    box.appendChild(el);
+  }
+}
+// 壹：花瓣 + 流萤
+spawn('#v1 .pbox', 'petal', 22, { size:[7,14], dx:[-30,90], dur:[9,17] });
+spawn('#v1 .pbox', 'fly',   12, { size:[3,5],  dx:[-40,40], dur:[10,18], fromBottom:true });
+// 贰：金尘上浮
+spawn('#v2 .pbox', 'dust',  30, { size:[2,4.5], dx:[-50,30], dur:[11,20], fromBottom:true });
+// 叁：金芒飞升
+spawn('#v3 .pbox', 'spark', 26, { size:[1.6,3], dx:[-40,40], dur:[5,10], fromBottom:true });
+spawn('#v3 .pbox', 'dust',  16, { size:[2,4],   dx:[-30,30], dur:[9,16], fromBottom:true });
+
+// 鼠标视差：mousemove 只记录目标值，rAF 每帧缓动跟随，避免高频样式重算
+let tx = 0, ty = 0, cx = 0, cy = 0;
+addEventListener('mousemove', e => {
+  tx = (e.clientX / innerWidth - .5) * 2;
+  ty = (e.clientY / innerHeight - .5) * 2;
+});
+(function tick() {
+  if (Math.abs(tx - cx) + Math.abs(ty - cy) > .0008) {
+    cx += (tx - cx) * .07;
+    cy += (ty - cy) * .07;
+    document.body.style.setProperty('--mx', cx.toFixed(4));
+    document.body.style.setProperty('--my', cy.toFixed(4));
+  }
+  requestAnimationFrame(tick);
+})();
+
+// 版本切换
+function show(n) {
+  document.querySelectorAll('.ver').forEach(v => v.classList.toggle('active', v.id === 'v' + n));
+  document.querySelectorAll('#switcher button').forEach(b => b.classList.toggle('on', b.dataset.v == n));
+}
+document.querySelectorAll('#switcher button').forEach(b => b.onclick = () => show(b.dataset.v));
+addEventListener('keydown', e => { if (['1','2','3'].includes(e.key)) show(e.key); });
+show(new URLSearchParams(location.search).get('v') || 1);
+</script>
+</body>
+</html>

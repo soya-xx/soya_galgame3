@@ -3,7 +3,7 @@
   const C = makeChapter('p', '序章·雨夜有猫叫我的名字');
 
   /* —— 开场：危机、倒计时、身份，全部在第一分钟压上 —— */
-  C.scene({ bg: 'bg_zayuan', music: 'tender', amb: 'rain', cast: [] });
+  C.scene({ bg: 'bg_zayuan', music: 'tender', cast: [] });
   C.n('雨，下到第三天。', { title: '序章·雨夜有猫叫我的名字' });
   C.n('青云宗，杂役院。');
   C.n('你在雨里搬砖。');
@@ -51,7 +51,7 @@
   C.n('身后，老头慢悠悠地，替你把砖一块块码了回去。');
 
   /* —— 破屋：异变与猫 —— */
-  C.scene({ bg: 'bg_room', music: 'tender', amb: 'rain', cast: [] });
+  C.scene({ bg: 'bg_room', music: 'tender', cast: [] });
   C.n('屋里一股潮味。烛火点到第三根。');
   C.n('你咬了口馒头，忽然停住。');
   C.mc('（手。）');
@@ -136,7 +136,7 @@
   C.l('cat', 'normal', '别急着信。看。');
 
   /* 记忆闪回：伤口 */
-  C.scene({ bg: 'bg_feisheng', music: 'battle', amb: null, cast: [] });
+  C.scene({ bg: 'bg_feisheng', music: 'battle', cast: [] });
   C.n('——眼前一黑。');
   C.n('再亮起来时，你站在云海之上。');
   C.n('一座高得没边的白玉高台。');
@@ -150,7 +150,7 @@
   C.n('"师兄。天要你死，我不敢不从。"');
   C.n('金光碎了。云海碎了。你碎了。', { cgOff: true });
 
-  C.scene({ bg: 'bg_room', music: 'tender', amb: 'rain', cast: ['cat:sad'] });
+  C.scene({ bg: 'bg_room', music: 'tender', cast: ['cat:sad'] });
   C.n('烛火噼啪一声。你回来了，浑身是汗。');
   C.mc('（心口疼。疼的位置，和梦里一模一样。）');
   C.l('cat', 'sad', '想起来多少？');
