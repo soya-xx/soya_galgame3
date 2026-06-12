@@ -147,8 +147,8 @@ button.primary { background:rgba(255,217,138,.16); border-color:#ffd98a; color:#
 .intel { color:#9fd0a8; font-size:14px; line-height:1.7; }
 
 /* CG鉴赏 */
-#gallery-grid { flex:1; overflow-y:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
-.gcell { aspect-ratio:3/2; border-radius:5px; overflow:hidden; border:1px solid rgba(240,234,216,.14);
+#gallery-grid { flex:1; min-height:0; overflow-y:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; align-content:start; }
+.gcell { aspect-ratio:3/2; min-height:90px; border-radius:5px; overflow:hidden; border:1px solid rgba(240,234,216,.14);
   background:#0a0d14; display:flex; align-items:center; justify-content:center; color:#3f3b30; font-size:22px; cursor:pointer; }
 .gcell img { width:100%; height:100%; object-fit:cover; }
 .gcell:hover { border-color:#ffd98a; }
