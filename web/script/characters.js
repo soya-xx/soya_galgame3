@@ -154,6 +154,7 @@ window.CG_TITLES = {
   cg_qian_inform: '金眼之下', cg_qian_roster: '册上有名', cg_qian_last: '真心一次',
   cg_luo_flower: '大红花', cg_gu_seed: '师弟的犹豫',
   cg_lap_ear: '掏耳朵', cg_hair_dry: '绞发', cg_tipsy_cling: '微醺', cg_share_quilt: '同衾',
+  cg_kowtow: '跪雨', cg_kick: '一脚',
   cg_burn_out: '燃丹·焚身', cg_burn_ash: '燃丹·余烬',
   cg_peek_splash: '泼水'
 };

@@ -18,8 +18,10 @@ if (!/三日|三天|大会/.test(head)) fail('开场35节点内没有倒计时')
 else ok('开场有倒计时压力');
 if (!/逐出|滚出|废物/.test(head)) fail('开场35节点内没有生存危机');
 else ok('开场有生存危机');
-const head60 = opening.slice(0, 60).map(n => n.t || '').join('');
-if (!/猫/.test(head60)) fail('开场60节点内猫没有登场');
+/* 放宽到80：开场先用"屈辱(代入)+身体异常(悬念)"两层把"你"立住，再让猫(催化剂)登场，
+   震撼才有落点。仍enforce催化剂不至于太晚(约前2-3分钟内)。 */
+const head80 = opening.slice(0, 80).map(n => n.t || '').join('');
+if (!/猫/.test(head80)) fail('开场80节点内猫没有登场');
 else ok('催化剂（猫）按时登场');
 const firstChoiceIdx = opening.findIndex(n => n.ch);
 /* 上限放宽到100：炸点冷开场(病态深情origin)需要更长的in-medias-res序幕才够震撼，

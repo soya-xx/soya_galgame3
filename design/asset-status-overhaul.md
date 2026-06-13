@@ -22,3 +22,8 @@ cg_share_quilt.png OK attempt1
 cg_tipsy_cling.png OK attempt1
 luo_cry.png OK attempt1
 DONE-FIX3 06-13 23:47
+# 开场屈辱CG+背刺重生成 06-14 01:37
+cg_kowtow.png OK attempt1
+cg_kick.png OK attempt1
+cg_betrayal.png OK attempt1
+DONE-OPEN 06-14 01:49
