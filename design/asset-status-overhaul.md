@@ -30,3 +30,7 @@ DONE-OPEN 06-14 01:49
 # 开局重做新增CG 06-14 05:00
 cg_guard_death.png OK attempt1
 DONE-OVERHAUL 06-14 05:02
+# 开局重做新增CG 06-14 07:38
+cg_guard_death.png SKIP
+cg_nightmare.png OK attempt1
+DONE-OVERHAUL 06-14 07:40
