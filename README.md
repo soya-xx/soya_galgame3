@@ -26,6 +26,8 @@ npm test        # 结构图完整性 / 8结局路线模拟 / 文风红线 / 体�
 ## 目录
 
 - `CLAUDE.md` — 开发准则（含资产铁律：旧图/废图永久归档、每图标注生成模型）
+- `AGENTS.md` — 给 AI 协作者（Codex/Claude Code）：如何读懂并用上访客埋点数据来定迭代
+- `design/telemetry-setup.md` — 埋点/数据后台的搭建说明（CF Pages Functions + D1）
 - `design/story-bible.md` — 故事圣经（救猫咪节拍、人物弧光、爽点清单、结局矩阵）
 - `design/asset-spec.md` — 全部图像资产的生成规格与提示词
 - `design/archive/` — 历史素材永久归档（旧图/废图，禁止删除）

@@ -42,3 +42,6 @@ npm test        # 结构图完整性 / 8结局路线模拟 / 文风红线 / 体�
 - `design/archive/` 历史素材永久归档 · `design/asset-models.tsv` 现役图模型清单
 - `web/` 游戏本体（可静态托管）· `web/script/` 剧本 DSL · `test/` 自动化验收
 - `tools/` 出图/音效/部署脚本 · `tools/lib/archive_img.sh` 归档共用库
+- 埋点/数据后台：`functions/` 采集与统计端(CF Pages Functions+D1) · `web/telemetry.js` 前端SDK ·
+  `web/admin.html` 看板(口令保护) · 搭建见 [design/telemetry-setup.md](design/telemetry-setup.md) ·
+  **如何用数据定迭代见 [AGENTS.md](AGENTS.md)**（取数API、字段字典、节点id→剧本文件映射、四类信号→改稿动作）

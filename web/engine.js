@@ -305,6 +305,7 @@
     }
     if (!node) { toast('剧本断链：' + id); return; }
     state.node = node.id;
+    if (window.TLM) TLM.node(node.id, node.chapter, state.vars);
     G.read[node.id] = 1;
     if (node.fx) window.applyFx(node.fx, state);
     if (node.note) { G.intel[node.id] = node.note; saveG(); }
@@ -383,10 +384,12 @@
   }
   function hideChoices() { $('choices').classList.add('hidden'); }
   function pickChoice(node, c) {
+    const alts = node.ch.filter(x => x !== c).map(x => x.t);
     state.choices.push({
       chapter: node.chapter || '', ctx: fmt(node.t).slice(0, 46),
-      took: c.t, alts: node.ch.filter(x => x !== c).map(x => x.t)
+      took: c.t, alts: alts
     });
+    if (window.TLM) TLM.choice(node.id, node.chapter, fmt(node.t).slice(0, 46), c.t, alts);
     if (c.fx) window.applyFx(c.fx, state);
     hideChoices();
     show(c.go);
@@ -407,6 +410,7 @@
   function showEnding(endId) {
     const E = STORY.endings[endId];
     if (!E) { toast('未定义结局: ' + endId); return; }
+    if (window.TLM) { const en = STORY.nodes[state.node] || {}; TLM.ending(endId, en.chapter || ''); }
     G.ends[endId] = 1;
     if (E.cg) G.cg[E.cg] = 1;
     if (E.intel) G.intel['end_' + endId] = E.intel;
@@ -443,6 +447,7 @@
   function readSave(key) { try { const r = localStorage.getItem('jsg3_save_' + key); return r ? JSON.parse(r) : null; } catch (e) { return null; } }
   function loadSnap(snap) {
     state = snap.state;
+    if (window.TLM) TLM.start(state.name, true);
     hideCg();
     enterGame();
     show(state.node);
@@ -577,6 +582,7 @@
     if (!v) { toast('总得有个名字'); return; }
     if (v.length > 8) { toast('名字太长了'); return; }
     state = freshState(); state.name = v;
+    if (window.TLM) TLM.start(v, false);
     hideCg();
     enterGame();
     show(STORY.start);

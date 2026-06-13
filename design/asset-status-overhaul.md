@@ -10,3 +10,15 @@ cg_qian_last.png RETRY attempt3
 cg_qian_last.png FAIL 3次未成
 cg_luo_flower.png RETRY attempt1
 cg_luo_flower.png RETRY attempt2
+# 福利v3+补图 06-13 23:13
+cg_qian_last.png OK attempt1
+cg_gu_seed.png OK attempt1
+cg_lap_ear.png OK attempt1
+cg_hair_dry.png OK attempt1
+# 阿萝立绘 06-13 23:29
+luo_joy.png OK attempt1
+# 串行修复三张 06-13 23:35
+cg_share_quilt.png OK attempt1
+cg_tipsy_cling.png OK attempt1
+luo_cry.png OK attempt1
+DONE-FIX3 06-13 23:47

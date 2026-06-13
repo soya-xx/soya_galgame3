@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>剑神三千年 · 数据后台</title>
+<style>
+  :root{
+    --ink:#1b1814; --paper:#f3ece0; --paper2:#e9e0d0; --line:#cbbda3;
+    --accent:#9a2f2f; --accent2:#3a6b54; --muted:#8c8167; --gold:#b8923f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-size:15px;line-height:1.6}
+  header{padding:18px 22px;border-bottom:2px solid var(--line);display:flex;
+    align-items:center;gap:14px;flex-wrap:wrap;background:var(--paper2)}
+  header h1{font-size:20px;margin:0;letter-spacing:1px}
+  header .sub{color:var(--muted);font-size:13px}
+  header .spacer{flex:1}
+  input[type=password],input[type=text]{padding:7px 10px;border:1px solid var(--line);
+    border-radius:6px;background:#fff;font-size:14px;width:200px}
+  button{padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:#fff;
+    cursor:pointer;font-size:14px}
+  button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  button:hover{filter:brightness(.96)}
+  main{padding:22px;max-width:1080px;margin:0 auto}
+  .hint{color:var(--muted);font-size:13px;margin:6px 0 18px}
+  .err{color:var(--accent);font-weight:600;padding:12px;border:1px solid var(--accent);
+    border-radius:8px;background:#fdeeee;display:none}
+  section{background:var(--paper2);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;margin:0 0 18px}
+  section h2{font-size:16px;margin:0 0 4px;border-left:4px solid var(--accent);padding-left:10px}
+  section .cap{color:var(--muted);font-size:13px;margin:0 0 14px}
+  .cards{display:flex;gap:12px;flex-wrap:wrap}
+  .card{flex:1;min-width:120px;background:#fff;border:1px solid var(--line);border-radius:8px;
+    padding:12px 14px;text-align:center}
+  .card .n{font-size:26px;font-weight:700;color:var(--accent)}
+  .card .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:5px 0}
+  .bar-row .lab{width:200px;flex-shrink:0;font-size:13px;text-align:right;color:var(--ink)}
+  .bar-wrap{flex:1;background:#fff;border-radius:5px;overflow:hidden;height:22px;border:1px solid var(--line)}
+  .bar{height:100%;background:linear-gradient(90deg,var(--accent2),#5d8f74);
+    display:flex;align-items:center;justify-content:flex-end;padding-right:6px;
+    color:#fff;font-size:12px;min-width:2px;white-space:nowrap}
+  .bar.warm{background:linear-gradient(90deg,#b8923f,#cda85a)}
+  .bar.hot{background:linear-gradient(90deg,#9a2f2f,#bd4b4b)}
+  .drop{color:var(--accent);font-size:12px;width:96px;flex-shrink:0}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;position:sticky;top:0;background:var(--paper2)}
+  td.code{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+  .scroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  .choice-group{margin:0 0 16px;padding:0 0 12px;border-bottom:1px dashed var(--line)}
+  .choice-group .ctx{font-size:13px;color:var(--muted);margin-bottom:6px}
+  .pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:1px 9px;font-size:12px;margin:2px 4px 2px 0}
+  .route-toggle{cursor:pointer;color:var(--accent2);text-decoration:underline;font-size:12px}
+  .route{display:none;color:var(--muted);font-size:12px;margin-top:4px}
+  .muted{color:var(--muted)}
+  details summary{cursor:pointer;color:var(--accent2);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>剑神三千年 · 数据后台</h1>
+  <span class="sub" id="rangeInfo"></span>
+  <span class="spacer"></span>
+  <input type="password" id="token" placeholder="后台口令 STATS_TOKEN" autocomplete="off">
+  <button class="primary" id="go">查看</button>
+  <button id="refresh" title="重新拉取">刷新</button>
+</header>
+<main>
+  <p class="hint">这页只给你自己看（已对搜索引擎隐藏）。口令就是你在 Cloudflare 里设的 <code>STATS_TOKEN</code>。下面每块都配了一句“这告诉你什么”。</p>
+  <div class="err" id="err"></div>
+  <div id="body" style="display:none">
+
+    <section>
+      <h2>总览</h2>
+      <p class="cap">最顶上是“有多少人来过”，往下是“多少人真的开始玩 / 玩到了结局”。访客 = 独立IP（已加盐哈希，不存原始IP）。</p>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <section>
+      <h2>章节漏斗 · 哪里掉人最多</h2>
+      <p class="cap">每根条 = 抵达该章的独立访客数。右边红字是“从上一章到这一章流失了百分之几”。<b>流失率最高的那一档，就是最该改的地方。</b></p>
+      <div id="funnel"></div>
+    </section>
+
+    <section>
+      <h2>流失点 · 玩家最后停在哪个节点</h2>
+      <p class="cap">没看到结局的人，最后停留的剧情节点排行。出现次数越多 = 越多人“看到这儿就关了”，重点排查这些节点的剧情节奏。</p>
+      <div class="scroll"><table id="dropoff"><thead><tr><th>节点</th><th>章节</th><th>停在此处的人数</th></tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section>
+      <h2>选择分布 · 大家走了哪条路线</h2>
+      <p class="cap">每个选择点下，各选项被多少独立访客选中。<b>票多的路线值得加料，票少的可能没人看见或不吸引人。</b></p>
+      <div id="choices"></div>
+    </section>
+
+    <section>
+      <h2>结局分布</h2>
+      <p class="cap">玩家最终抵达了哪些结局。某结局占比畸高 = 其它结局路线门槛太高或没人发现。</p>
+      <div id="endings"></div>
+    </section>
+
+    <section>
+      <h2>国家 / 地区</h2>
+      <div id="country"></div>
+    </section>
+
+    <section>
+      <h2>按天趋势</h2>
+      <p class="cap">每天的独立访客 / 开始局数 / 通关人数。</p>
+      <div class="scroll"><table id="byday"><thead><tr><th>日期</th><th>独立访客</th><th>开始</th><th>通关</th></tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section>
+      <h2>逐访客明细 · 每个人玩到哪、选了什么</h2>
+      <p class="cap">最近 300 位访客。点“路线”看他这一路的每个选择。</p>
+      <div class="scroll"><table id="visitors"><thead><tr><th>访客</th><th>地区</th><th>起的名字</th><th>最深章节</th><th>结局</th><th>选择数</th><th>最后活动</th><th>路线</th></tr></thead><tbody></tbody></table></div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+const ENDING_NAMES = {
+  END_TRUE:'真结局·天下剑鸣', END_ALLY:'真结局·众生剑', END_ASH:'白首剑帝',
+  END_SLEEP:'剑冢长眠', END_DEMON:'魔染', END_LEAVE:'隐藏·平凡之路',
+  END_REFUSE:'猫的报恩', END_ARENA:'断剑台'
+};
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtTs = t => t? new Date(t).toLocaleString('zh-CN',{hour12:false}) : '—';
+const endName = id => id ? (ENDING_NAMES[id]||id) : '';
+
+function showErr(msg){ const e=$('#err'); e.textContent=msg; e.style.display='block'; $('#body').style.display='none'; }
+
+async function load(){
+  const token = $('#token').value.trim();
+  if(!token){ showErr('请输入后台口令'); return; }
+  localStorage.setItem('jsg3_admin_token', token);
+  $('#err').style.display='none';
+  try{
+    const res = await fetch('/api/stats?token='+encodeURIComponent(token));
+    const data = await res.json();
+    if(!data.ok){ showErr('读取失败：'+(data.err||res.status)); return; }
+    render(data);
+    $('#body').style.display='block';
+  }catch(e){ showErr('网络错误：'+e.message); }
+}
+
+function bar(label, val, max, cls, extra){
+  const pct = max>0? Math.round(val/max*100):0;
+  return `<div class="bar-row"><div class="lab">${esc(label)}</div>
+    <div class="bar-wrap"><div class="bar ${cls||''}" style="width:${pct}%">${val}</div></div>
+    ${extra||''}</div>`;
+}
+
+function render(d){
+  const o = d.overview||{};
+  $('#rangeInfo').textContent = (o.firstTs? '数据自 '+fmtTs(o.firstTs):'') ;
+  // 总览卡片
+  const visits=o.visits||0, starts=o.starts||0, fin=o.finishers||0, vtr=o.visitors||0;
+  $('#cards').innerHTML = [
+    ['独立访客', vtr, '不同IP'],
+    ['到访次数', visits, '打开标题页'],
+    ['开始游戏', starts, '点了“新的轮回”'],
+    ['通关人数', fin, '看到任一结局'],
+    ['开始率', visits? Math.round(starts/visits*100)+'%':'—', '开始 ÷ 到访'],
+    ['通关率', starts? Math.round(fin/starts*100)+'%':'—', '通关 ÷ 开始'],
+  ].map(c=>`<div class="card"><div class="n">${c[1]}</div><div class="l">${c[0]}<br><span class="muted">${c[2]}</span></div></div>`).join('');
+
+  // 漏斗
+  const f = d.funnel||[];
+  const top = (f[0]&&f[0].reached) || starts || 1;
+  $('#funnel').innerHTML = f.map((x,i)=>{
+    const prev = i>0? f[i-1].reached : x.reached;
+    const dropN = prev - x.reached;
+    const dropPct = prev>0? Math.round(dropN/prev*100):0;
+    const cls = dropPct>=40?'hot':(dropPct>=20?'warm':'');
+    const extra = i>0? `<div class="drop">${dropN>0?('▼ 流失 '+dropPct+'%'):'—'}</div>` : `<div class="drop muted">起点</div>`;
+    return bar(x.label||('章节'+x.ci), x.reached, top, cls, extra);
+  }).join('') || '<p class="muted">暂无数据</p>';
+
+  // 流失点
+  $('#dropoff tbody').innerHTML = (d.dropoff||[]).map(r=>
+    `<tr><td class="code">${esc(r.node)}</td><td>${esc(r.ch||'')}</td><td>${r.c}</td></tr>`).join('')
+    || '<tr><td colspan="3" class="muted">暂无数据</td></tr>';
+
+  // 选择分布：按节点分组
+  const groups={};
+  (d.choices||[]).forEach(r=>{ (groups[r.node]=groups[r.node]||{ctx:r.ctx,opts:[]}).opts.push(r); });
+  $('#choices').innerHTML = Object.keys(groups).map(node=>{
+    const g=groups[node];
+    const tot=g.opts.reduce((s,x)=>s+x.v,0)||1;
+    const bars=g.opts.map(x=>bar(x.took, x.v, tot, 'warm',
+      `<div class="drop muted">${Math.round(x.v/tot*100)}%</div>`)).join('');
+    return `<div class="choice-group"><div class="ctx code">${esc(node)} · ${esc(g.ctx||'')}</div>${bars}</div>`;
+  }).join('') || '<p class="muted">还没有人做选择</p>';
+
+  // 结局
+  const ends=d.endings||[];
+  const emax=ends.reduce((m,x)=>Math.max(m,x.v),0)||1;
+  $('#endings').innerHTML = ends.map(x=>bar(endName(x.ending)+' ('+x.ending+')', x.v, emax, '')).join('')
+    || '<p class="muted">还没有人通关</p>';
+
+  // 国家
+  const cs=d.byCountry||[];
+  const cmax=cs.reduce((m,x)=>Math.max(m,x.v),0)||1;
+  $('#country').innerHTML = cs.map(x=>bar(x.country||'(未知)', x.v, cmax,'')).join('')
+    || '<p class="muted">暂无数据</p>';
+
+  // 按天
+  $('#byday tbody').innerHTML = (d.byDay||[]).map(r=>
+    `<tr><td>${esc(r.day)}</td><td>${r.visitors}</td><td>${r.starts}</td><td>${r.finishers}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="muted">暂无数据</td></tr>';
+
+  // 逐访客
+  $('#visitors tbody').innerHTML = (d.visitors||[]).map((v,i)=>{
+    const route = (v.route||[]).map(r=>`<span class="pill">${esc(r.took)}</span>`).join('') || '<span class="muted">无选择</span>';
+    return `<tr>
+      <td class="code">${esc((v.visitor||'').slice(0,8))}</td>
+      <td>${esc(v.country||'')}</td>
+      <td>${esc(v.name||'')}</td>
+      <td>${esc(v.label||('章节'+(v.mci==null?'?':v.mci)))}</td>
+      <td>${v.ending? esc(endName(v.ending)):'<span class="muted">未通关</span>'}</td>
+      <td>${v.choices||0}</td>
+      <td class="muted">${fmtTs(v.lastTs)}</td>
+      <td><span class="route-toggle" data-i="${i}">展开</span><div class="route" id="rt${i}">${route}</div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" class="muted">暂无访客</td></tr>';
+  document.querySelectorAll('.route-toggle').forEach(el=>{
+    el.onclick=()=>{ const r=$('#rt'+el.dataset.i); const on=r.style.display==='block';
+      r.style.display=on?'none':'block'; el.textContent=on?'展开':'收起'; };
+  });
+}
+
+$('#go').onclick=load;
+$('#refresh').onclick=load;
+$('#token').addEventListener('keydown',e=>{ if(e.key==='Enter') load(); });
+const saved=localStorage.getItem('jsg3_admin_token');
+if(saved){ $('#token').value=saved; load(); }
+</script>
+</body>
+</html>

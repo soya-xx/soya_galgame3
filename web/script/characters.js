@@ -82,6 +82,13 @@ window.CHARS = {
       fear:    'assets/characters/qian_fear.png',
       resolve: 'assets/characters/qian_resolve.png'
     }
+  },
+  luo: {
+    name: '阿萝', pos: 'center', defaultExpr: 'joy',
+    sprites: {
+      joy: 'assets/characters/luo_joy.png',
+      cry: 'assets/characters/luo_cry.png'
+    }
   }
 };
 
@@ -146,6 +153,7 @@ window.CG_TITLES = {
   cg_steady_hand: '稳住的手',
   cg_qian_inform: '金眼之下', cg_qian_roster: '册上有名', cg_qian_last: '真心一次',
   cg_luo_flower: '大红花', cg_gu_seed: '师弟的犹豫',
+  cg_lap_ear: '掏耳朵', cg_hair_dry: '绞发', cg_tipsy_cling: '微醺', cg_share_quilt: '同衾',
   cg_burn_out: '燃丹·焚身', cg_burn_ash: '燃丹·余烬',
   cg_peek_splash: '泼水'
 };
