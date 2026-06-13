@@ -261,7 +261,8 @@ structure 测试拦（发言人需有 sprites），故**钱通立绘是硬前置
   - `qian_seed`（早期对钱通/阿萝动过"不划算的善"→钱通临终一善走呼应版）
   - `qian_expose` / `qian_help`（四章对钱通的态度）
   - `luo_doom`（救沈涟漪导致阿萝付账）
-  - `gu_redeem`（顾长生种子结算：ban/善行累计达标→敌人可救版终章）
+  - 顾长生种子结算**无独立 flag**：由结局路径达成——sever+truth≥6+ban≥14→final_true/ally
+    的赎清版台词；ban≥14 在 final_sleep 也承认"选了人"；对照 burn→END_ASH 的镜像版。
 - 所有新 flag 必须有 setFx 来源（structure 测试 #9 会查）。
 
 ---
