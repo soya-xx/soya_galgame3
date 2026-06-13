@@ -19,7 +19,7 @@ import sys, base64, json, urllib.request, ssl, subprocess, os, tempfile
 
 GRSAI_KEY = "sk-fadeebb690d74c7f82adf5655db17ea0"
 GRSAI_URL = "https://grsaiapi.com/v1/api/generate"
-MODEL     = "nano-banana-pro"
+MODEL     = os.environ.get("GRSAI_MODEL", "nano-banana-pro")
 CTX       = ssl._create_unverified_context()
 
 
@@ -137,11 +137,19 @@ PROMPTS = {
     ),
     "cg_morning_after": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, late morning sunlight. "
-        "Cute cat-girl with cream-blonde wavy hair in two side buns, fluffy cat ears, big blue eyes, "
-        "pink ribbon bow, black choker with golden bell. Lying on front on a bed, thin white silk blanket "
-        "slipped down to her lower back revealing her fully bare back, the curve of her waist and hip suggested "
-        "under the edge of the blanket, glancing back over her shoulder with a slow satisfied smile, "
-        "one finger beckoning. Maximize languid morning-after allure."
+        "Cute cat-girl with cream-blonde wavy hair in side buns, fluffy cat ears, big blue eyes, pink bow, "
+        "black choker golden bell, fluffy tail. Lying on her front on a bed, thin white quilt slipped to her "
+        "lower back baring her smooth back, shy coy bashful blush, languid little smile. "
+        "Both arms folded and resting naturally on the pillow in front of her, hands relaxed and natural with "
+        "clean correct fingers. Tasteful shy morning allure."
+    ),
+    "cg_end_leave": (
+        "high-quality anime visual novel event CG, Chinese xianxia fantasy, cozy dusk street noodle stall, warm amber lanterns, steam. "
+        "Cute cat-girl with cream-blonde wavy hair in two side buns, fluffy cat ears, big blue eyes, pink bow, black choker golden bell. "
+        "She wears a loose hood with her cat ears poking it up, happily eating a big bowl of noodles — her CHEEKS PUFFED FULL and round "
+        "with noodles, mouth closed and stuffed (chipmunk cheeks, NOT open-mouthed), chopsticks in hand, content happy eyes. "
+        "Behind the stall a young black-ponytail man in plain clothes cooks noodles smiling faintly, a cloth-wrapped sword leans on the bench. "
+        "Warm homely peaceful, keep her cute youthful face."
     ),
     "cg_banquet_gown": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, lantern-lit banquet hall. "
@@ -185,11 +193,13 @@ PROMPTS = {
     ),
     "cg_check_bone": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, dim candlelit night room. "
-        "Cute cat-girl with cream-blonde wavy hair, fluffy cat ears, big blue eyes, pink bow, black choker golden bell, fluffy tail. "
+        "Cute cat-girl with cream-blonde wavy hair, fluffy cat ears, pink bow, black choker golden bell, fluffy tail. "
         "Pressing herself tightly against the bare back of a young man with long black ponytail, her ear and cheek "
-        "flat on his skin between the shoulder blades, eyes closed melting into a blissful blush, "
-        "her hands gripping his shoulders, her own collar loosened off one shoulder from leaning in, "
-        "tail wrapped around his arm. Maximize the intimate skinship and her flushed melting expression."
+        "flat on his skin between the shoulder blades. EXPRESSION: BOTH her eyes are gently and fully CLOSED, "
+        "a shy bashful blissful blush across her cheeks, a tender tiny closed-mouth smile, demure and innocent, "
+        "NOT looking at the viewer, NOT winking, both eyes closed. "
+        "Her hanfu robe is loosened and slipped far down off both shoulders, baring her shoulders, back and cleavage, "
+        "tail wrapped around his arm. Maximize the intimate skinship and revealing slipped robe, with the shy closed-eyes expression."
     ),
     "cg_cling_cry": (
         "high-quality anime visual novel event CG, Chinese xianxia fantasy, dim warm room. "
@@ -282,8 +292,10 @@ PROMPTS.update({
         "Maximize the black-and-white skin contrast intimacy."
     ),
     "cg_demon_kiss": _CG + _CATGIRL + (
-        "Dark hall golden sparks. Cupping his face kissing him passionately, her body below the waist "
-        "dissolved into golden light, her gauze top slipping, tragic passionate. Maximize the kiss intensity."
+        "Dark hall with golden light motes. She cups the black-robed man's face and kisses him softly. "
+        "Her EYES are gently CLOSED with glistening TEARS streaming down her cheeks, sorrowful tender. "
+        "Her lower body and gauze dress are dissolving and scattering upward into golden light particles. "
+        "Her thin gauze slips off her shoulders baring shoulders and back. Tragic, bittersweet, eyes closed crying while kissing and fading."
     ),
     "cg_leave_bath": _CG + _CATGIRL + (
         "Backyard night wooden bath tub, lantern, steam. Risen slightly from the water, bare shoulders "
@@ -296,9 +308,9 @@ PROMPTS.update({
         "Maximize tipsy clingy allure."
     ),
     "cg_leave_quilt": _CG + _CATGIRL + (
-        "Winter bedroom night. Under one quilt burrowed against his chest, quilt slipped showing her "
-        "bare shoulder and the strap-less curve of her back, content sleeping face, tail out of quilt. "
-        "More intimate cozy skinship."
+        "Winter bedroom night. Under one thick quilt burrowed against the man's chest, only the top of "
+        "her head, cat ears and a content sleeping face peeking out, bare shoulder showing. "
+        "NO tail anywhere — do not show any tail. Cozy intimate skinship, warm domestic."
     ),
     "cg_leave_dawn": _CG + _CATGIRL + (
         "Dawn kitchen. Wearing only his oversized robe slipping off one shoulder, hem riding up as she "
