@@ -74,6 +74,14 @@ window.CHARS = {
       smile: 'assets/characters/zhou_smile.png',
       worry: 'assets/characters/zhou_worry.png'
     }
+  },
+  qian: {
+    name: '钱通', pos: 'left', defaultExpr: 'fawn',
+    sprites: {
+      fawn:    'assets/characters/qian_fawn.png',
+      fear:    'assets/characters/qian_fear.png',
+      resolve: 'assets/characters/qian_resolve.png'
+    }
   }
 };
 
@@ -136,6 +144,8 @@ window.CG_TITLES = {
   cg_refuse_dream: '梦·窗边', cg_refuse_warm: '梦·依偎',
   cg_arena_moon: '月华复形', cg_arena_tend: '敷药', cg_arena_warm: '偎暖', cg_arena_dawn: '黎明之约',
   cg_steady_hand: '稳住的手',
+  cg_qian_inform: '金眼之下', cg_qian_roster: '册上有名', cg_qian_last: '真心一次',
+  cg_luo_flower: '大红花', cg_gu_seed: '师弟的犹豫',
   cg_burn_out: '燃丹·焚身', cg_burn_ash: '燃丹·余烬',
   cg_peek_splash: '泼水'
 };
