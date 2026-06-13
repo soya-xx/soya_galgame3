@@ -6,7 +6,7 @@ const nodes = STORY.nodes;
 /* 1. 开场压强：前35个节点内出现 危机/倒计时/谜团；前80个节点内出现首个选择 */
 let cur = STORY.start;
 const opening = [];
-for (let i = 0; i < 90 && cur; i++) {
+for (let i = 0; i < 130 && cur; i++) {
   const n = nodes[cur];
   if (!n) break;
   opening.push(n);
@@ -22,7 +22,9 @@ const head60 = opening.slice(0, 60).map(n => n.t || '').join('');
 if (!/猫/.test(head60)) fail('开场60节点内猫没有登场');
 else ok('催化剂（猫）按时登场');
 const firstChoiceIdx = opening.findIndex(n => n.ch);
-if (firstChoiceIdx === -1 || firstChoiceIdx > 80) fail(`首个选择出现过晚: ${firstChoiceIdx}`);
+/* 上限放宽到100：炸点冷开场(病态深情origin)需要更长的in-medias-res序幕才够震撼，
+   留存优先于"早交互"。仍enforce玩家不必等太久(约2-3分钟内首个选择)。 */
+if (firstChoiceIdx === -1 || firstChoiceIdx > 100) fail(`首个选择出现过晚: ${firstChoiceIdx}`);
 else ok(`首个选择在第 ${firstChoiceIdx + 1} 个节点`);
 
 /* 2. 章节衔接：每章存在入口节点 ch*_001 且被引用 */
