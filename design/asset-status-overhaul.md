@@ -27,3 +27,6 @@ cg_kowtow.png OK attempt1
 cg_kick.png OK attempt1
 cg_betrayal.png OK attempt1
 DONE-OPEN 06-14 01:49
+# 开局重做新增CG 06-14 05:00
+cg_guard_death.png OK attempt1
+DONE-OVERHAUL 06-14 05:02
