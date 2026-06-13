@@ -120,7 +120,9 @@ window.BGS = {
   bg_feisheng: 'assets/backgrounds/bg_feisheng.png',
   bg_dawn:     'assets/backgrounds/bg_dawn.png',
   bg_town:     'assets/backgrounds/bg_town.png',
-  bg_throne:   'assets/backgrounds/bg_throne.png'
+  bg_throne:   'assets/backgrounds/bg_throne.png',
+  bg_room_day: 'assets/backgrounds/bg_room_day.png',
+  bg_room_dusk:'assets/backgrounds/bg_room_dusk.png'
 };
 
 window.CG_TITLES = {

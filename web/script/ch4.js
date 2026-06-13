@@ -283,7 +283,7 @@
   C.n('灰像雪一样，慢慢落下来。');
 
   /* —— 一无所有 —— */
-  C.scene({ bg: 'bg_room', music: 'tender', cast: [] });
+  C.scene({ bg: 'bg_room_dusk', music: 'tender', cast: [] });
   C.n('它还活着。', { cgOff: true });
   C.n('柳长青请来的丹堂圣手看了三遍，都是一句话：');
   C.n('"妖丹本源燃尽，能活，但是——"');

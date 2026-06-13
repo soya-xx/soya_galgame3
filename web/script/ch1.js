@@ -3,7 +3,7 @@
   const C = makeChapter('ch1', '第一章·扮猪吃虎');
 
   /* —— 清晨·赖床 —— */
-  C.scene({ bg: 'bg_room', music: 'daily', cast: [] });
+  C.scene({ bg: 'bg_room_day', music: 'daily', cast: [] });
   C.n('天亮了。', { title: '第一章·扮猪吃虎' });
   C.n('你被压得喘不过气。');
   C.n('睁眼一看——枕头被人抱走了大半。');
