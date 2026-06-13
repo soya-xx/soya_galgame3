@@ -208,6 +208,12 @@ _CATGIRL = (
 _CG = "high-quality anime visual novel event CG, Chinese xianxia fantasy. "
 
 PROMPTS.update({
+    "cg_peek_splash": _CG + _CATGIRL + (
+        "Night misty bamboo hot spring. She soaks in the water turning back with an angry-shy pout (娇嗔), "
+        "flinging a splash of water at the viewer. Her wet robe clings and slips off her shoulders, "
+        "more bare shoulders, collarbone and the upper swell of her chest exposed above the waterline, "
+        "wet fabric translucent. Keep the same composition and her cute youthful face, just more revealing wet allure."
+    ),
     "cg_spring": _CG + _CATGIRL + (
         "Night misty bamboo hot spring, lanterns, fireflies, moon. She is BATHING, submerged in the steaming spring "
         "water up to her shoulders — keep her in the water, only head, neck and bare shoulders above the misty waterline, "
