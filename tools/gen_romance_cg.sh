@@ -9,6 +9,8 @@ CG="high-quality anime visual novel event CG, cinematic composition, emotional l
 SOYA_V2="Soya the cat-girl: EXACTLY the same character and same Chinese xianxia hanfu outfit as the reference image (white cross-collar wide-sleeve top, pastel-pink ruqun skirt, floating pink ribbons, golden bell on black choker, cream-blonde wavy hair with two side buns, cat ears, big blue eyes, fluffy tail)."
 MC="the protagonist: tall young man, long black hair tied in a high ponytail, plain grey-blue xianxia robes"
 MCW="the protagonist: tall young man, long black hair tied in a high ponytail, white xianxia robes"
+IMG_MODEL=gpt-image-2
+source "$ROOT/tools/lib/archive_img.sh"   # 覆盖旧图前归档+模型留痕
 
 # 等主批量结束（最多90分钟）
 i=0
@@ -19,12 +21,14 @@ done
 
 gen() {
   out="$CGD/$1.png"; prompt="$2"
+  archive_keep "$out" superseded            # 覆盖前把旧图永久留底
   attempt=1
   while [ $attempt -le 3 ]; do
+    [ $attempt -gt 1 ] && archive_img "$out" rejected   # 上一轮废稿归档
     codex exec -m gpt-5.5 --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -i "$SOYA_REF" -- "用 gpt-image-2 生成一张图片，保存到 $out 。$NOGIT 提示词：$prompt" >/dev/null 2>&1
     if [ -f "$out" ]; then
       w=$(sips -g pixelWidth "$out" 2>/dev/null | awk '/pixelWidth/{print $2}')
-      if [ "${w:-0}" -ge 1024 ] 2>/dev/null; then echo "$1.png OK attempt$attempt" >> "$LOG"; return 0; fi
+      if [ "${w:-0}" -ge 1024 ] 2>/dev/null; then record_model "$out" "$IMG_MODEL"; echo "$1.png OK attempt$attempt" >> "$LOG"; return 0; fi
     fi
     echo "$1.png RETRY attempt$attempt" >> "$LOG"; attempt=$((attempt+1)); sleep 20
   done

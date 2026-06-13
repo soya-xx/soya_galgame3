@@ -14,13 +14,17 @@ CAT_V2="EXACTLY the same cream-colored anime kitten as the reference image: flat
 CG="high-quality anime visual novel event CG, cinematic composition, emotional lighting, Chinese xianxia fantasy, detailed, no text, no watermark, correct anatomy, exactly two arms per person, each visible hand five fingers."
 MC="the protagonist: tall young man, long black hair tied in a high ponytail, sharp dark eyes, plain grey-blue xianxia sect robes"
 MCW="the protagonist: tall young man, long black hair tied in a high ponytail, white xianxia robes"
+IMG_MODEL=gpt-image-2
+source "$ROOT/tools/lib/archive_img.sh"   # 覆盖旧图前归档+模型留痕
 
 gen() { # gen <输出绝对路径> <参考1> [参考2] <提示词>
   out="$1"; ref1="$2"
   if [ $# -eq 4 ]; then ref2="$3"; prompt="$4"; else ref2=""; prompt="$3"; fi
   base=$(basename "$out")
+  archive_keep "$out" superseded            # 覆盖前把旧图永久留底
   attempt=1
   while [ $attempt -le 3 ]; do
+    [ $attempt -gt 1 ] && archive_img "$out" rejected   # 上一轮废稿归档
     if [ -n "$ref2" ]; then
       codex exec -m gpt-5.5 --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -i "$ref1" -i "$ref2" -- "用 gpt-image-2 生成一张图片，保存到 $out 。$NOGIT 提示词：$prompt" >/dev/null 2>&1
     else
@@ -29,12 +33,12 @@ gen() { # gen <输出绝对路径> <参考1> [参考2] <提示词>
     if [ -f "$out" ]; then
       mt=$(( $(date +%s) - $(stat -f %m "$out") ))
       w=$(sips -g pixelWidth "$out" 2>/dev/null | awk '/pixelWidth/{print $2}')
-      if [ "$mt" -lt 600 ] && [ "${w:-0}" -ge 1024 ] 2>/dev/null; then echo "$base OK attempt$attempt" >> "$LOG"; return 0; fi
+      if [ "$mt" -lt 600 ] && [ "${w:-0}" -ge 1024 ] 2>/dev/null; then record_model "$out" "$IMG_MODEL"; echo "$base OK attempt$attempt" >> "$LOG"; return 0; fi
     fi
     echo "$base RETRY attempt$attempt" >> "$LOG"
     attempt=$((attempt+1)); sleep 20
   done
-  echo "$base FAIL 保留旧图" >> "$LOG"; return 0
+  echo "$base FAIL 旧图已归档 archive/superseded" >> "$LOG"; return 0
 }
 
 echo "# v2仙侠化批量 $(date '+%m-%d %H:%M')" >> "$LOG"

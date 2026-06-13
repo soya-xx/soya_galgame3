@@ -7,6 +7,8 @@ REF="$ROOT/web/assets/characters/soya_smile.png"
 OUT=/tmp/cg_end_base
 LOG="$OUT/gen.log"
 mkdir -p "$OUT"
+IMG_MODEL=gpt-image-2
+source "$ROOT/tools/lib/archive_img.sh"   # 废稿归档，禁止 rm
 
 STYLE="high-quality anime visual novel event CG, cinematic composition, emotional lighting, Chinese xianxia fantasy, detailed, no text, no watermark, correct anatomy, exactly two arms per person, each visible hand five fingers."
 SOYA="Soya: cute petite cat-girl, long wavy cream-blonde hair with two small side buns, fluffy cat ears with pink inner, big round blue eyes, small pink ribbon bow, black choker with a small golden bell, fluffy cream-brown cat tail, match ONLY the face, hair, ears, eyes, bow, bell and tail from the reference image."
@@ -22,7 +24,7 @@ gen() {
     if [ -f "$out" ]; then
       w=$(sips -g pixelWidth "$out" 2>/dev/null | awk '/pixelWidth/{print $2}')
       if [ "${w:-0}" -ge 1024 ] 2>/dev/null; then echo "$name OK attempt$attempt" >> "$LOG"; return 0; fi
-      rm -f "$out"
+      archive_img "$out" rejected
     fi
     echo "$name RETRY attempt$attempt" >> "$LOG"; attempt=$((attempt+1)); sleep 15
   done

@@ -25,8 +25,11 @@ npm test        # 结构图完整性 / 8结局路线模拟 / 文风红线 / 体�
 
 ## 目录
 
+- `CLAUDE.md` — 开发准则（含资产铁律：旧图/废图永久归档、每图标注生成模型）
 - `design/story-bible.md` — 故事圣经（救猫咪节拍、人物弧光、爽点清单、结局矩阵）
 - `design/asset-spec.md` — 全部图像资产的生成规格与提示词
+- `design/archive/` — 历史素材永久归档（旧图/废图，禁止删除）
+- `design/asset-models.tsv` — 现役图的生成模型清单
 - `web/` — 可直接静态托管的游戏本体
 - `web/script/` — 剧本数据（DSL + 各章节点）
 - `test/` — 自动化验收

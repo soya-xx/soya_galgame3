@@ -1,15 +1,15 @@
 #!/bin/bash
 # 修正11张问题CG + cg_betrayal（方向/构图/角色一致性全部订正）
-# 每张备份原图到 design/cg_backup/，生成后验宽>=1024才保留，最多3次重试
+# 旧图/废图一律归档进 design/archive/（不再 rm），生成后验宽>=1024才保留，最多3次重试
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CG_DIR="$ROOT/web/assets/cg"
-BAK_DIR="$ROOT/design/cg_backup"
 LOG="$ROOT/design/gen_fix_cg.log"
 SOYA_REF="$ROOT/web/assets/characters/soya_smile.png"
 CAT_REF="$ROOT/web/assets/characters/cat_normal.png"
+IMG_MODEL=gpt-image-2                              # 本管线生成模型
+source "$ROOT/tools/lib/archive_img.sh"           # 旧图/废图归档+模型留痕，禁止 rm
 
-mkdir -p "$BAK_DIR"
 echo "# gen_fix_cg $(date '+%Y-%m-%d %H:%M')" > "$LOG"
 
 STYLE="high-quality anime visual novel event CG, cinematic composition, emotional lighting, Chinese xianxia fantasy, detailed, no text, no watermark, correct anatomy, exactly two arms per person, each visible hand five fingers."
@@ -22,8 +22,8 @@ gen() {
   local prompt="$3"
   local out="$CG_DIR/$name.png"
 
-  # backup
-  if [ -f "$out" ]; then cp "$out" "$BAK_DIR/${name}_bak.png"; fi
+  # 覆盖前把现役原图留底（永久归档）
+  archive_keep "$out" original
 
   local attempt=1
   while [ $attempt -le 3 ]; do
@@ -59,10 +59,11 @@ Scene: $prompt" >/dev/null 2>&1
       local w
       w=$(sips -g pixelWidth "$out" 2>/dev/null | awk '/pixelWidth/{print $2}')
       if [ "${w:-0}" -ge 1024 ] 2>/dev/null; then
+        record_model "$out" "$IMG_MODEL"
         echo "$name OK width=$w" | tee -a "$LOG"
         return 0
       fi
-      rm -f "$out"
+      archive_img "$out" rejected   # 废稿归档而非删除
     fi
     echo "$name RETRY" | tee -a "$LOG"
     attempt=$((attempt+1))

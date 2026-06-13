@@ -44,7 +44,7 @@ codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check \
 - `$HOME/Documents/向向皮套素材assets/微信图片_20260611014516_8_3702.png`（全身正面）
 - `$HOME/Documents/向向皮套素材assets/微信图片_20260611014547_12_3702.png`（全身斜角+尾巴）
 
-角色描述（嵌入每条相关提示词）【v2 仙侠风换装版，2026-06-12 起生效；v1 洛丽塔版已废弃，旧图备份于 design/old_outfit/】：
+角色描述（嵌入每条相关提示词）【v2 仙侠风换装版，2026-06-12 起生效；v1 洛丽塔版已废弃，旧图备份于 design/archive/superseded/v1-lolita-2026-06-12/】：
 > Soya (向向): cute petite cat-girl, long wavy cream-blonde hair with two small side buns, fluffy cat ears (cream fur, pink inner), big round blue eyes, small pink ribbon bow on her hair, black choker with a small golden bell, fluffy cream-brown cat tail. OUTFIT (Chinese xianxia hanfu, NOT lolita): white cross-collar top with wide flowing sleeves, high-waisted pastel-pink ruqun skirt with layered white gauze, long floating pink silk ribbons (piaodai) drifting around her arms, light-blue sash and ribbon accents, subtle cat-paw embroidery, delicate embroidered shoes. Cute, petite, gentle, immortal-fairy aesthetic.
 > 附皮套参考图时提示词必须写明：match ONLY the face, hair, ears, eyes, bow, bell and tail from the reference; REPLACE the outfit with the hanfu described。换装锚图（characters/soya_smile.png v2）确定后，后续含Soya图一律附锚图保持一致。
 
