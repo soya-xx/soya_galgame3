@@ -34,3 +34,8 @@ DONE-OVERHAUL 06-14 05:02
 cg_guard_death.png SKIP
 cg_nightmare.png OK attempt1
 DONE-OVERHAUL 06-14 07:40
+# 开局重做新增CG 06-14 13:11
+cg_guard_death.png SKIP
+cg_nightmare.png SKIP
+cg_spare_vessel.png OK attempt1
+DONE-OVERHAUL 06-14 13:16

@@ -155,6 +155,7 @@ window.CG_TITLES = {
   cg_steady_hand: '稳住的手',
   cg_guard_death: '守一世',
   cg_nightmare: '别离开我',
+  cg_spare_vessel: '她攒的东西',
   cg_qian_inform: '金眼之下', cg_qian_roster: '册上有名', cg_qian_last: '真心一次',
   cg_luo_flower: '大红花', cg_gu_seed: '师弟的犹豫',
   cg_lap_ear: '掏耳朵', cg_hair_dry: '绞发', cg_tipsy_cling: '微醺', cg_share_quilt: '同衾',
