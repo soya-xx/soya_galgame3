@@ -197,7 +197,7 @@
   }
 
   /* ---------- CG（粘滞：声明开启，cgOff/换背景关闭） ---------- */
-  let curCg = null, cgLocked = false, cgLockTimer = null;
+  let curCg = null, cgLocked = false, cgLockTimer = null, flashTimer = null;
   function hideCg() { curCg = null; $('cg-layer').classList.add('hidden'); }
   /* CG 刚切换：2秒轻微缩放亮相，期间锁住"前进到下一句"，防止手快划过 */
   function startCgIntro() {
@@ -222,7 +222,7 @@
         img.classList.remove('hidden'); fb.classList.add('hidden');
         img.onerror = () => { img.classList.add('hidden'); fb.classList.remove('hidden'); fb.textContent = '— ' + (window.CG_TITLES[node.cg] || node.cg) + ' —'; };
         img.src = 'assets/cg/' + node.cg + '.png';
-        startCgIntro();
+        if (!node.flash) startCgIntro();  /* 闪回CG：不走2秒亮相锁，瞬现 */
       }
       layer.classList.remove('hidden');
     } else if (node.cgOff || bgChanged) {
@@ -339,6 +339,14 @@
     if (node.end) pendingEnd = node.end; else pendingEnd = null;
     preloadAhead(node.id);
     saveG();
+    /* 闪回：一闪而过(≤0.5s)自动翻页，不锁、不依赖玩家点击 */
+    if (node.flash) {
+      cgLocked = false; clearTimeout(cgLockTimer);
+      clearTimeout(flashTimer);
+      flashTimer = setTimeout(() => {
+        if (state && state.node === node.id) { hideCg(); if (node.next) show(node.next); }
+      }, 420);
+    }
   }
 
   /* ---------- 图片预加载：沿剧情顺序提前各3张（CG/角色/背景） ---------- */

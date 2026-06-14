@@ -65,6 +65,7 @@ window.makeChapter = function (prefix, chapterTitle) {
     };
     if (opts.cg) node.cg = opts.cg;
     if (opts.cgOff) node.cgOff = true;
+    if (opts.flash) node.flash = true;
     if (opts.sfx) node.sfx = opts.sfx;
     if (opts.fx) node.fx = opts.fx;
     if (opts.title) node.title = opts.title;

@@ -175,5 +175,7 @@ window.CG_TITLES = {
   cg_zhou_bun: '雨夜热馒头', cg_zhou_yam: '一只烤红薯', cg_moon_vow: '月下·攒了样东西',
   cg_cliff_shen: '崖顶有人', cg_shen_whip: '枪后的手', cg_golden_date: '酒里的金枣',
   cg_seal_cry: '大笨蛋', cg_vote_betray: '一人换全宗', cg_forget: '她不认得我',
-  cg_empty_tomb: '衣冠冢里的剑', cg_gu_crack: '面具裂了'
+  cg_empty_tomb: '衣冠冢里的剑', cg_gu_crack: '面具裂了',
+  /* 开局潜意识闪回（≤0.5s 一闪而过·病娇向向） */
+  cg_flash_yandere: '一闪'
 };
