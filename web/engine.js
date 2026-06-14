@@ -254,6 +254,11 @@
 
   /* ---------- 自动 / 快进 ---------- */
   let autoOn = false, skipOn = false, autoTimer = null, skipTimer = null;
+  /* 快进只放过"开头(序章 p_*)的非福利CG"；福利CG与一切非开头CG都拦停快进、照常亮相 */
+  const WELFARE_CG = new Set(['cg_first_form', 'cg_reforge_close']);
+  function skippableCg(node) {
+    return !!node && typeof node.id === 'string' && node.id.indexOf('p_') === 0 && !WELFARE_CG.has(node.cg);
+  }
   function setAuto(v) {
     autoOn = v; $('btn-auto').classList.toggle('on', v);
     if (v) { setSkip(false); if (!typing) scheduleAuto(); } else clearTimeout(autoTimer);
@@ -275,9 +280,11 @@
       skipTimer = setInterval(() => {
         const node = STORY.nodes[state.node];
         if (!node || node.ch) { setSkip(false); return; }
-        /* 快进跳过全部文本（含未读）；遇到选项分支或新CG才停 */
+        /* 快进跳过文本；遇选项停。CG：仅"开头(序章)的非福利CG"可越过，其余(非开头/福利)都停下亮相 */
+        const prevCg = node.cg || null;
         completeType(); advance();
-        /* 快进时不为新CG停下：CG亮相动画不打断快进，直接越过 */
+        const cur = STORY.nodes[state.node];
+        if (cur && cur.cg && cur.cg !== prevCg && !skippableCg(cur)) { setSkip(false); }
       }, 70);
     }
   }
