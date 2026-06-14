@@ -161,5 +161,19 @@ window.CG_TITLES = {
   cg_lap_ear: '掏耳朵', cg_hair_dry: '绞发', cg_tipsy_cling: '微醺', cg_share_quilt: '同衾',
   cg_kowtow: '跪雨', cg_kick: '一脚',
   cg_burn_out: '燃丹·焚身', cg_burn_ash: '燃丹·余烬',
-  cg_peek_splash: '泼水'
+  cg_peek_splash: '泼水',
+  cg_shen_fall: '以命换命', cg_liu_legacy: '百零四代', cg_xuanyi_break: '碎信',
+  cg_zhou_carry: '千里送猫', cg_luo_altar: '头一个登台', cg_gu_release: '师弟的归途',
+  cg_king_dawn: '新天',
+  /* 羁绊场景·身世闪回 */
+  cg_shen_kneel: '跪祠堂', cg_zhou_vigil: '病榻守夜', cg_luo_wall: '墙根',
+  cg_liu_fire: '火里的孩子', cg_xuanyi_village: '废村孤子', cg_qian_starve: '饿殍',
+  /* 羁绊结局·收束定格 */
+  cg_shen_grave: '直', cg_liu_lantern: '长明灯', cg_xuanyi_bow: '一拜', cg_qian_grave: '好人之墓',
+  cg_zhou_bowl: '老位置的一碗饭', cg_luo_bury: '埋红花', cg_gu_descend: '下山',
+  /* 正篇·各路线情绪关键点补CG */
+  cg_zhou_bun: '雨夜热馒头', cg_zhou_yam: '一只烤红薯', cg_moon_vow: '月下·攒了样东西',
+  cg_cliff_shen: '崖顶有人', cg_shen_whip: '枪后的手', cg_golden_date: '酒里的金枣',
+  cg_seal_cry: '大笨蛋', cg_vote_betray: '一人换全宗', cg_forget: '她不认得我',
+  cg_empty_tomb: '衣冠冢里的剑', cg_gu_crack: '面具裂了'
 };

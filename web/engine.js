@@ -276,10 +276,8 @@
         const node = STORY.nodes[state.node];
         if (!node || node.ch) { setSkip(false); return; }
         /* 快进跳过全部文本（含未读）；遇到选项分支或新CG才停 */
-        const prevCg = node.cg || null;
         completeType(); advance();
-        const cur = STORY.nodes[state.node];
-        if (cur && cur.cg && cur.cg !== prevCg) { setSkip(false); }
+        /* 快进时不为新CG停下：CG亮相动画不打断快进，直接越过 */
       }, 70);
     }
   }
@@ -361,7 +359,7 @@
     const node = STORY.nodes[state.node];
     if (!node) return;
     if (typing) { completeType(); return; }
-    if (cgLocked) return;
+    if (cgLocked && !skipOn) return;
     if (node.ch) { showChoices(node); return; }
     if (node.end) { showEnding(node.end); return; }
     if (node.next) show(node.next);

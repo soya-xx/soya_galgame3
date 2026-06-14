@@ -145,7 +145,7 @@
   C.mc('"天"开的价，你接的单。');
   C.mc('一剑，从我心口穿过去。');
   C.l('gu', 'mad', '那你知不知道——！');
-  C.n('温和的面具，第一次裂了。');
+  C.n('温和的面具，第一次裂了。', { cg: 'cg_gu_crack' });
   C.l('gu', 'mad', '那天"天"给我的，是两个选法！');
   C.l('gu', 'mad', '要么，你一个人死，天再撑三千年！');
   C.l('gu', 'mad', '要么，当夜天倾，人间一个不剩！');
@@ -220,8 +220,23 @@
   C.n('（现在，轮到我自己选了。）');
   C.choice([
     ['烧契约', 'burn', { jian: 3 }],
-    ['斩契约', 'sever', { ban: 1 }]
+    ['斩契约', 'sever', { ban: 1 }],
+    ['接他的位', 'inherit', { ban: 1 }]
   ]);
+
+  /* —— 接他的位：接班(顾长生线·END_GU) —— */
+  C.label('inherit');
+  C.mc('（第三个选法，我不挑了。）');
+  C.mc('（你守了三千年。该换人了。）');
+  C.mc('师弟，你下来。');
+  C.l('gu', 'calm', '……什么？');
+  C.mc('柱子我来当。你，回家。');
+  C.n('顾长生的脸，第一次彻底白了。');
+  C.l('gu', 'mad', '你疯了！那是万年不见天日——');
+  C.mc('你扛了三千年没疯。剩下的我替你扛。');
+  C.n('你拖着锁灵铐，一级一级走上飞升台。');
+  C.mc('（向向，对不起。这回换我食言了。）');
+  C.jump('endx_gu');
 
   /* —— 烧契约：白首剑帝 —— */
   C.label('burn');
@@ -328,7 +343,19 @@
   C.mc('是他们自己愿意学。');
   C.mc('——这就是你永远不懂的事，师弟。');
 
-  /* —— 钱通：真心一次 —— */
+  /* —— 命运分歧：羁绊深处的结局(优先接管高潮；无羁绊则走通用收尾) —— */
+  C.router([
+    [{ flags: ['shenbond', 'liubond', 'xuanyibond', 'qianbond', 'luobond'], min: { truth: 6, ban: 14 } }, 'endx_king'],
+    [{ flags: ['zhoubond', 'solo'] }, 'endx_zhou'],
+    [{ flags: ['shenbond'] }, 'endx_shen'],
+    [{ flags: ['liubond'] }, 'endx_liu'],
+    [{ flags: ['xuanyibond'] }, 'endx_xuanyi'],
+    [{ flags: ['qianbond'] }, 'endx_qian'],
+    [{ flags: ['luobond'] }, 'endx_luo']
+  ], 'qian_sac');
+
+  /* —— 钱通：真心一次(通用收尾·无羁绊专属结局时) —— */
+  C.label('qian_sac');
   C.n('就在这时，祭坛开始吞人。', { cgOff: true });
   C.n('金光卷向台前那群记名的孩子。');
   C.n('阿萝吓得迈不开腿。');
@@ -344,6 +371,8 @@
   C.mc('（这一次，他没算计。）');
   C.jump('qian_done');
   C.label('qian_atone');
+  C.n('他本可以缩进人堆里逃。他在名册上，没人会怪他。');
+  C.n('可他没逃。');
   C.l('qian', 'resolve', '这些崽子……跟当年的我一样，要被卖。');
   C.l('qian', 'resolve', '我这辈子没干过人事。就这一件吧。');
   C.mc('（一个卖了一路人的人。）');
@@ -356,6 +385,7 @@
   C.n('钱通没了。腰，是直的。', { cgOff: true });
 
   /* 最后一剑：羁绊与真相的结算 */
+  C.label('final_resolve');
   C.router([
     [{ min: { truth: 6, ban: 14 }, flags: ['jiushen', 'liumeng'] }, 'final_ally'],
     [{ min: { truth: 6, ban: 14 } }, 'final_true']
