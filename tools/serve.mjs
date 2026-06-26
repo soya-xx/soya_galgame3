@@ -7,7 +7,7 @@ const root = join(fileURLToPath(new URL('.', import.meta.url)), '..', 'web');
 const port = process.env.PORT ? Number(process.env.PORT) : 8013;
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg',
+  '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg',
   '.ogg': 'audio/ogg', '.mp3': 'audio/mpeg', '.json': 'application/json'
 };
 

@@ -221,7 +221,7 @@
         G.cg[node.cg] = 1; saveG();
         img.classList.remove('hidden'); fb.classList.add('hidden');
         img.onerror = () => { img.classList.add('hidden'); fb.classList.remove('hidden'); fb.textContent = '— ' + (window.CG_TITLES[node.cg] || node.cg) + ' —'; };
-        img.src = 'assets/cg/' + node.cg + '.png';
+        img.src = 'assets/cg/' + node.cg + '.webp';
         if (!node.flash) startCgIntro();  /* 闪回CG：不走2秒亮相锁，瞬现 */
       }
       layer.classList.remove('hidden');
@@ -359,7 +359,7 @@
       const id = q.shift(); if (!id || seen.has(id)) continue; seen.add(id); steps += 1;
       const n = STORY.nodes[id]; if (!n) continue;
       if (n.bg && BGS[n.bg] && bgs.length < 3 && bgs.indexOf(BGS[n.bg]) < 0) bgs.push(BGS[n.bg]);
-      if (n.cg && cgs.length < 3) { const u = 'assets/cg/' + n.cg + '.png'; if (cgs.indexOf(u) < 0) cgs.push(u); }
+      if (n.cg && cgs.length < 3) { const u = 'assets/cg/' + n.cg + '.webp'; if (cgs.indexOf(u) < 0) cgs.push(u); }
       if (n.cast) n.cast.forEach(c => { const u = spriteUrl(c); if (u && sps.length < 3 && sps.indexOf(u) < 0) sps.push(u); });
       if (n.next) q.push(n.next);
       if (n.ch) n.ch.forEach(c => q.push(c.go));
@@ -552,10 +552,10 @@
       const cell = document.createElement('div'); cell.className = 'gcell';
       if (G.cg[key]) {
         const img = document.createElement('img');
-        img.src = 'assets/cg/' + key + '.png';
+        img.src = 'assets/cg/' + key + '.webp';
         img.onerror = () => { img.remove(); cell.textContent = window.CG_TITLES[key]; cell.style.fontSize = '13px'; cell.style.color = '#9a937f'; };
         cell.appendChild(img);
-        cell.onclick = () => { $('gallery-img').src = 'assets/cg/' + key + '.png'; $('gallery-view').classList.remove('hidden'); };
+        cell.onclick = () => { $('gallery-img').src = 'assets/cg/' + key + '.webp'; $('gallery-view').classList.remove('hidden'); };
       } else cell.textContent = '？';
       grid.appendChild(cell);
     });
@@ -582,8 +582,8 @@
     $('title-screen').classList.remove('hidden');
     $('btn-continue').disabled = !latestSave();
     const tk = new Image();
-    tk.onload = () => { $('title-bg').style.setProperty('--titleimg', 'url(assets/ui/title_keyvisual.png)'); };
-    tk.src = 'assets/ui/title_keyvisual.png';
+    tk.onload = () => { $('title-bg').style.setProperty('--titleimg', 'url(assets/ui/title_keyvisual.webp)'); };
+    tk.src = 'assets/ui/title_keyvisual.webp';
   }
   function newGame() {
     $('name-input').value = '林惊澜';

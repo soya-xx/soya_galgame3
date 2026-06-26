@@ -5,89 +5,89 @@ window.CHARS = {
   soya: {
     name: '向向', cls: 'soya', actor: 'xiang', pos: 'right', defaultExpr: 'smile',
     sprites: {
-      smile: 'assets/characters/soya_smile.png',
-      joy:   'assets/characters/soya_joy.png',
-      pout:  'assets/characters/soya_pout.png',
-      tear:  'assets/characters/soya_tear.png',
-      blush: 'assets/characters/soya_blush.png',
-      shock: 'assets/characters/soya_shock.png',
-      calm:  'assets/characters/soya_calm.png',
-      fade:  'assets/characters/soya_fade.png'
+      smile: 'assets/characters/soya_smile.webp',
+      joy:   'assets/characters/soya_joy.webp',
+      pout:  'assets/characters/soya_pout.webp',
+      tear:  'assets/characters/soya_tear.webp',
+      blush: 'assets/characters/soya_blush.webp',
+      shock: 'assets/characters/soya_shock.webp',
+      calm:  'assets/characters/soya_calm.webp',
+      fade:  'assets/characters/soya_fade.webp'
     }
   },
   cat: {
     name: '猫', cls: 'soya', actor: 'xiang', pos: 'left', small: true, defaultExpr: 'normal',
     /* 猫形态只有3张图，情绪用就近映射 */
     sprites: {
-      normal: 'assets/characters/cat_normal.png',
-      alert:  'assets/characters/cat_alert.png',
-      sad:    'assets/characters/cat_sad.png',
-      joy:    'assets/characters/cat_alert.png',
-      shock:  'assets/characters/cat_alert.png',
-      pout:   'assets/characters/cat_sad.png',
-      tear:   'assets/characters/cat_sad.png',
-      calm:   'assets/characters/cat_normal.png',
-      smile:  'assets/characters/cat_normal.png',
-      blush:  'assets/characters/cat_normal.png'
+      normal: 'assets/characters/cat_normal.webp',
+      alert:  'assets/characters/cat_alert.webp',
+      sad:    'assets/characters/cat_sad.webp',
+      joy:    'assets/characters/cat_alert.webp',
+      shock:  'assets/characters/cat_alert.webp',
+      pout:   'assets/characters/cat_sad.webp',
+      tear:   'assets/characters/cat_sad.webp',
+      calm:   'assets/characters/cat_normal.webp',
+      smile:  'assets/characters/cat_normal.webp',
+      blush:  'assets/characters/cat_normal.webp'
     }
   },
   shen: {
     name: '沈青澜', pos: 'left', defaultExpr: 'proud',
     sprites: {
-      proud:   'assets/characters/shen_proud.png',
-      shock:   'assets/characters/shen_shock.png',
-      resolve: 'assets/characters/shen_resolve.png'
+      proud:   'assets/characters/shen_proud.webp',
+      shock:   'assets/characters/shen_shock.webp',
+      resolve: 'assets/characters/shen_resolve.webp'
     }
   },
   liu: {
     name: '柳长青', pos: 'left', defaultExpr: 'stern',
     sprites: {
-      stern: 'assets/characters/liu_stern.png',
-      shock: 'assets/characters/liu_shock.png',
-      warm:  'assets/characters/liu_warm.png'
+      stern: 'assets/characters/liu_stern.webp',
+      shock: 'assets/characters/liu_shock.webp',
+      warm:  'assets/characters/liu_warm.webp'
     }
   },
   zhao: {
     name: '赵虎', pos: 'left', defaultExpr: 'smug',
     sprites: {
-      smug:   'assets/characters/zhao_smug.png',
-      beaten: 'assets/characters/zhao_beaten.png'
+      smug:   'assets/characters/zhao_smug.webp',
+      beaten: 'assets/characters/zhao_beaten.webp'
     }
   },
   xuanyi: {
     name: '玄一', pos: 'left', defaultExpr: 'polite',
     sprites: {
-      polite: 'assets/characters/xuanyi_polite.png',
-      cruel:  'assets/characters/xuanyi_cruel.png'
+      polite: 'assets/characters/xuanyi_polite.webp',
+      cruel:  'assets/characters/xuanyi_cruel.webp'
     }
   },
   gu: {
     name: '顾长生', pos: 'center', defaultExpr: 'calm',
     sprites: {
-      calm: 'assets/characters/gu_calm.png',
-      mad:  'assets/characters/gu_mad.png'
+      calm: 'assets/characters/gu_calm.webp',
+      mad:  'assets/characters/gu_mad.webp'
     }
   },
   zhou: {
     name: '老周头', pos: 'left', defaultExpr: 'smile',
     sprites: {
-      smile: 'assets/characters/zhou_smile.png',
-      worry: 'assets/characters/zhou_worry.png'
+      smile: 'assets/characters/zhou_smile.webp',
+      worry: 'assets/characters/zhou_worry.webp'
     }
   },
   qian: {
     name: '钱通', pos: 'left', defaultExpr: 'fawn',
     sprites: {
-      fawn:    'assets/characters/qian_fawn.png',
-      fear:    'assets/characters/qian_fear.png',
-      resolve: 'assets/characters/qian_resolve.png'
+      fawn:    'assets/characters/qian_fawn.webp',
+      fear:    'assets/characters/qian_fear.webp',
+      resolve: 'assets/characters/qian_resolve.webp'
     }
   },
   luo: {
     name: '阿萝', pos: 'center', defaultExpr: 'joy',
     sprites: {
-      joy: 'assets/characters/luo_joy.png',
-      cry: 'assets/characters/luo_cry.png'
+      joy: 'assets/characters/luo_joy.webp',
+      cry: 'assets/characters/luo_cry.webp'
     }
   }
 };
@@ -109,20 +109,20 @@ window.SFX = {
 };
 
 window.BGS = {
-  bg_zayuan:   'assets/backgrounds/bg_zayuan.png',
-  bg_room:     'assets/backgrounds/bg_room.png',
-  bg_yanwu:    'assets/backgrounds/bg_yanwu.png',
-  bg_dadian:   'assets/backgrounds/bg_dadian.png',
-  bg_houshan:  'assets/backgrounds/bg_houshan.png',
-  bg_fangshi:  'assets/backgrounds/bg_fangshi.png',
-  bg_jianzhong:'assets/backgrounds/bg_jianzhong.png',
-  bg_banquet:  'assets/backgrounds/bg_banquet.png',
-  bg_feisheng: 'assets/backgrounds/bg_feisheng.png',
-  bg_dawn:     'assets/backgrounds/bg_dawn.png',
-  bg_town:     'assets/backgrounds/bg_town.png',
-  bg_throne:   'assets/backgrounds/bg_throne.png',
-  bg_room_day: 'assets/backgrounds/bg_room_day.png',
-  bg_room_dusk:'assets/backgrounds/bg_room_dusk.png'
+  bg_zayuan:   'assets/backgrounds/bg_zayuan.webp',
+  bg_room:     'assets/backgrounds/bg_room.webp',
+  bg_yanwu:    'assets/backgrounds/bg_yanwu.webp',
+  bg_dadian:   'assets/backgrounds/bg_dadian.webp',
+  bg_houshan:  'assets/backgrounds/bg_houshan.webp',
+  bg_fangshi:  'assets/backgrounds/bg_fangshi.webp',
+  bg_jianzhong:'assets/backgrounds/bg_jianzhong.webp',
+  bg_banquet:  'assets/backgrounds/bg_banquet.webp',
+  bg_feisheng: 'assets/backgrounds/bg_feisheng.webp',
+  bg_dawn:     'assets/backgrounds/bg_dawn.webp',
+  bg_town:     'assets/backgrounds/bg_town.webp',
+  bg_throne:   'assets/backgrounds/bg_throne.webp',
+  bg_room_day: 'assets/backgrounds/bg_room_day.webp',
+  bg_room_dusk:'assets/backgrounds/bg_room_dusk.webp'
 };
 
 window.CG_TITLES = {
